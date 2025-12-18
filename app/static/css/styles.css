@@ -1,0 +1,201 @@
+/* ---------- ESTILOS GENERALES ---------- */
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #ffffff;
+    color: #243447;
+}
+
+/* ---------- MENÚ SUPERIOR ---------- */
+
+.menu {
+    background: #0a4d7a;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 30px;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.menu .logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.menu a {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.menu a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- CABECERA HERO ---------- */
+.imagen{
+    text-align: center;
+}
+.hero {
+    text-align: center;
+    padding: 20px 20px;
+    background: linear-gradient(#0a4d7a, #0f6da5);
+    color: white;
+}
+
+.hero p {
+    margin-top: 10px;
+    opacity: 0.9;
+}
+
+
+/* ---------- CONTENEDOR PRINCIPAL ---------- */
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* ---------- TARJETAS ---------- */
+
+.card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-left: 5px solid #0f6da5;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: all 0.4s ease;
+}
+
+.card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ---------- FORMULARIOS ---------- */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+input, textarea {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #b6c4d2;
+    font-size: 15px;
+}
+
+textarea {
+    height: 80px;
+    resize: vertical;
+}
+
+.btn {
+    background: #0f6da5;
+    padding: 12px;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #09537c;
+}
+
+
+/* ---------- RESULTADOS ---------- */
+
+.resultados-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.resultado-item {
+    background: #f5f9fc;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #d9e4ef;
+}
+
+.score-ejemplo {
+    font-size: 18px;
+    color: #0f4c75;
+}
+
+.indicacion {
+    line-height: 1.5;
+    color: #1f2e40;
+}
+
+/* ---------- OCULTO ---------- */
+
+.oculto {
+    display: none;
+}
+
+/* ---------- FOOTER ---------- */
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    background: #ffffff;
+    margin-top: 40px;
+    font-size: 14px;
+}
+
+.select-md-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.select-md-label {
+    font-size: 14px;
+    color: #0f4c75;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.select-md {
+    appearance: none;
+    padding: 14px;
+    padding-right: 40px;
+    border: 2px solid #d6e2ee;
+    border-radius: 8px;
+    background: #ffffff;
+    font-size: 15px;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    color: #243447;
+}
+
+.select-md:focus {
+    border-color: #0f6da5;
+    box-shadow: 0 0 0 3px rgba(15, 109, 165, 0.25);
+    outline: none;
+}
+
+.select-md-container::after {
+    content: "▼";
+    color: #0f6da5;
+    position: absolute;
+    right: 15px;
+    top: 46px;
+    pointer-events: none;
+}

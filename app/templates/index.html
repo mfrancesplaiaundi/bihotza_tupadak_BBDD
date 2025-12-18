@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>BIHOTZA TAUPAKA, IRRIBARREA AHOAN</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <script src="../static/js/script.js" defer></script>
+</head>
+
+<body>
+
+<!-- MENÚ SUPERIOR -->
+<nav class="menu">
+    <div class="logo">BIHOTZA TAUPAKA, IRRIBARREA AHOAN</div>
+    <div class="links">
+        <a onclick="mostrar('form1')">Aho Higienea</a>
+        <a onclick="mostrar('form2')">Bihotz Osasuna eta Menpekotasuna</a>
+        <a onclick="mostrar('formAnalitica')">Analisi-balioak</a>
+        <a onclick="mostrar('resultados')">Emaitzak eta Gomendioak</a>
+    </div>
+</nav>
+<div class="imagen" ><img src="../static/img/logo.JPG" alt="logo" width="400px" /></div>
+
+
+<header class="hero">
+    <h3>BIHOTZA TAUPAKA, IRRIBARREA AHOAN</h3>    
+    <p>    <button class="btn" onclick="mostrarFormularioInicial()">
+        Hasi galdetegia
+    </button>
+</p>
+</header>
+
+<main class="container">
+
+    <!-- FORM 1 -->
+    <section id="form1" class="card oculto animate">
+        <h2>1. Galdetegia: AHO HIGIENEA</h2>
+        <form class="form-grid" action="">
+
+            <div class="select-md-container">
+                <label class="select-md-label">1. Zein maiztasunekin garbitzen dituzu hortzak?</label>
+                <select class="select-md" id="cepillado" name="cepillado" required>
+                    <option value="" disabled selected>Aukeratu...</option>
+                    <option value="bitan">Egunean 2tan edo gehiagotan</option>
+                    <option value="behin">Egunean behin</option>
+                    <option value="gutxi">Gutxiago</option>
+                </select><br>
+                <label class="select-md-label">2. Zenbat denbora pasatzen duzu hortzak garbitzen?</label>
+                <select class="select-md" id="tiempo" name="tiempo" required>
+                    <option value="" disabled selected>Aukeratu...</option>
+                    <option value="ondo">2 minutu edo gehiago</option>
+                    <option value="gutxi">Gutxiago</option>
+                </select><br>
+                <label class="select-md-label">3. Hortzak garbitzeko zein eskuila mota erabiltzen duzu?</label>
+                <select class="select-md" id="eskuila" name="eskuila" required>
+                    <option value="" disabled selected>Aukeratu...</option>
+                    <option value="elektrikoa">Eskuila elektrikoa</option>
+                    <option value="eskukoa">Eskuzko eskuila</option>
+                </select><br>
+                <label class="select-md-label">4. Hortz-tarteak garbitzeko metodo osagarriren bat (hortz-haria, eskuila interproximalak, silikonazko txotx edo “pick”-ak, irrigadorea, superfloss© moduko haria…) erabiltzen duzu?</label>
+                <select class="select-md" id="osagarria" name="osagarria" required>
+                    <option value="" disabled selected>Aukeratu...</option>
+                    <option value="bai">Bai</option>
+                    <option value="ez">Ez</option>
+                </select><br>
+                <label class="select-md-label">5. Hortz klinikara zein maiztasunekin joaten zara?</label>
+                <select class="select-md" id="klinika" name="klinika" required>
+                    <option value="" disabled selected>Aukeratu...</option>
+                    <option value="seihilero">6 hilero edo maizago</option>
+                    <option value="urteanbat">Urtean behin</option>
+                    <option value="tartean">Urtean behin baino gutxiago baina 5 urtero baino maizago</option>
+                    <option value="bosturte">Azken 5 urtetan ez naiz hortz klinika batetan egon</option>
+                </select><br>
+            </div>
+
+
+            <button type="button" class="btn" onclick="mostrar('form2')">Gorde</button>
+        </form>
+    </section>
+
+    <!-- FORM 2 -->
+    <section id="form2" class="card oculto animate">
+        <h2>2. Galdetegia: BIHOTZ OSASUNAREN eta MENPEKOTASUN-MAILAREN INGURUKO GALDEKETA</h2>
+        <form class="form-grid">
+            <div class="select-md-container">
+                <label class="select-md-label">1. Kardiopatia kongenitorik baduzu?</label>
+                <select class="select-md" id="kardiopatia" name="kardiopatia" required>
+                    <option value="" disabled selected>Aukeratu...</option>
+                    <option value="ez">Ez</option>
+                    <option value="bai">Bai</option>
+                </select><br>
+                <label class="select-md-label">2. Zianosia eragiten dutenen artean sailkatzen da (“shunt” delakoak, konduktu eta bentrikulu bakarrekoak)?</label>
+                <select class="select-md" id="zianosia" name="zianosia" required>
+                    <option value="" disabled selected>Aukeratu...</option>
+                    <option value="ez">Ez</option>
+                    <option value="bai">Bai</option>
+                </select><br>
+                <label class="select-md-label">3. Bihotzeko ebakuntzarik egin dizue inoiz edo egiteko zain zaude? Zenbat ebakuntza guztira?</label>
+                <select class="select-md" id="ebakuntza" name="ebakuntza" required>
+                    <option value="" disabled selected>Aukeratu...</option>
+                    <option value="ez">Ez</option>
+                    <option value="bat">1</option>
+                    <option value="bi">2-3</option>
+                    <option value="hiru">3 baino gehiago</option>
+                </select><br>
+                <label class="select-md-label">4. Bihotz protesia edo bestelako protesirik daramazu?</label>
+                <select class="select-md" id="protesia" name="protesia" required>
+                    <option value="" disabled selected>Aukeratu...</option>
+                    <option value="ez">Ez</option>
+                    <option value="bai">Bai</option>
+                </select><br>
+                <label class="select-md-label">5. Endokarditis bakterianoa” delako gaixotasuna izan duzu inoiz?</label>
+                <select class="select-md" id="endokarditis" name="endokarditis" required>
+                    <option value="" disabled selected>Aukeratu...</option>
+                    <option value="ez">Ez</option>
+                    <option value="bai">Bai</option>
+                </select><br>
+                <label class="select-md-label">6. Diabetes Mellitus gaixotasuna duzu? Zein motatakoa?</label>
+                <select class="select-md" id="diabetes" name="diabetes" required>
+                    <option value="" disabled selected>Aukeratu...</option>
+                    <option value="ez">Ez</option>
+                    <option value="bat">I motakoa</option>
+                    <option value="bi">II motakoa</option>
+                </select><br>
+                <label class="select-md-label">7. Erretzailea zara?</label>
+                <select class="select-md" id="erretzailea" name="erretzailea" required>
+                    <option value="" disabled selected>Aukeratu...</option>
+                    <option value="ez">Ez</option>
+                    <option value="bai">Bai</option>
+                </select><br>
+                <label class="select-md-label">8. Foru Aldundiak onartutako menpekotasunik baduzu, zein mailatakoa?</label>
+                <select class="select-md" id="menpekotasuna" name="menpekotasuna" required>
+                    <option value="" disabled selected>Aukeratu...</option>
+                    <option value="ez">Ez dut menpekotasunik</option>
+                    <option value="bat">I</option>
+                    <option value="bi">II</option>
+                    <option value="hiru">III</option>
+                </select><br>
+            </div>
+
+            <button type="button" class="btn" onclick="mostrar('formAnalitica')">Gorde</button>
+        </form>
+    </section>
+
+    <!-- ANALÍTICA -->
+    <section id="formAnalitica" class="card oculto animate">
+        <h2>Analisi-balioak</h2>
+        <form class="form-grid">
+            <label>PLAKA INDIZEA</label>
+            <input type="number" step="0.1" min="0" required id="indice_placa" name="indice_placa">
+
+            <label>INFLAMAZIOAREN PRESENTZIA: IL-6 maila (pg/mL)</label>
+            <input type="number" min="0" max="100" required id="il6" name="il6">
+
+            <button type="button" class="btn" onclick="enviarDatos()">Prozesatu</button>
+        </form>
+    </section>
+
+    <!-- RESULTADOS -->
+    <section id="resultados" class="card oculto animate">
+        <h2>Emaitzak eta Gomendioak</h2>
+
+        <div class="resultados-grid">
+
+            <div class="resultado-item">
+                <h3>Score Totala</h3>
+                <p class="score-ejemplo">Adibidez: <strong>18 puntu</strong></p>
+            </div>
+
+            <div class="resultado-item">
+                <h3>Gomendio Orokorrak</h3>
+                <p class="indicacion">Adibidez: Berrikuspen klinikoa gomendatzen da. Jarraipena 2 astean behin.</p>
+            </div>
+
+            <div class="resultado-item">
+                <h3>Gomendio Pertsonalizatua</h3>
+                <p class="indicacion">
+                    Adibidez: IL-6 mailak jarraipen gehigarria iradokitzen du.
+
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer">
+<img src="../static/img/footer.JPG" alt="footer"  />
+</footer>
+
+</body>
+</html>
