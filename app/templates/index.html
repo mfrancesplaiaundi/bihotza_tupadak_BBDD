@@ -13,10 +13,10 @@
 <nav class="menu">
     <div class="logo">BIHOTZA TAUPAKA, IRRIBARREA AHOAN</div>
     <div class="links">
-        <a onclick="mostrar('form1')">Aho Higienea</a>
+<!--         <a onclick="mostrar('form1')">Aho Higienea</a>
         <a onclick="mostrar('form2')">Bihotz Osasuna eta Menpekotasuna</a>
         <a onclick="mostrar('formAnalitica')">Analisi-balioak</a>
-        <a onclick="mostrar('resultados')">Emaitzak eta Gomendioak</a>
+        <a onclick="mostrar('resultados')">Emaitzak eta Gomendioak</a> -->
     </div>
 </nav>
 <div class="imagen" ><img src="../static/img/logo.JPG" alt="logo" width="400px" /></div>
@@ -24,14 +24,15 @@
 
 <header class="hero">
     <h3>BIHOTZA TAUPAKA, IRRIBARREA AHOAN</h3>    
-    <p>    <button class="btn" onclick="mostrarFormularioInicial()">
-        Hasi galdetegia
-    </button>
-</p>
 </header>
 
 <main class="container">
-
+<section id="login" class="visible">
+  <h2>Sarbidea</h2>
+  <input id="user" placeholder="Kodea / Erabiltzailea">
+  <input id="pass" type="password" placeholder="PIN / Pasahitza">
+<button type="button" onclick="login()">Sartu</button>
+</section>
     <!-- FORM 1 -->
     <section id="form1" class="card oculto animate">
         <h2>1. Galdetegia: AHO HIGIENEA</h2>
@@ -146,13 +147,20 @@
     <section id="formAnalitica" class="card oculto animate">
         <h2>Analisi-balioak</h2>
         <form class="form-grid">
+            <label>Pazientearen kodea</label>
+            <input type="text" id="patientCode" placeholder="MN02">
+
             <label>PLAKA INDIZEA</label>
             <input type="number" step="0.1" min="0" required id="indice_placa" name="indice_placa">
 
             <label>INFLAMAZIOAREN PRESENTZIA: IL-6 maila (pg/mL)</label>
             <input type="number" min="0" max="100" required id="il6" name="il6">
 
-            <button type="button" class="btn" onclick="enviarDatos()">Prozesatu</button>
+             <label>Oharrak</label>
+  <textarea id="observaciones"></textarea>
+
+
+  <button onclick="guardarDatosClinicos()">Gorde datuak</button>
         </form>
     </section>
 

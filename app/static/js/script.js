@@ -1,19 +1,48 @@
-function mostrarFormularioInicial() {
 
-    document.querySelector(".imagen").classList.add("oculto");
-    document.querySelector(".hero").classList.add("oculto");
+ async function login() {
 
+  const user = document.getElementById("user").value;
+  const pass = document.getElementById("pass").value;
+
+  const res = await fetch("/api/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      username: user,
+      password: pass
+    })
+  });
+  if (await !res.ok) {
+    alert("Sarbide okerra");
+    return;
+  }
+  console.log("Resultado:", res);
+
+  const data = await res.json();
+  console.log("Respuesta JSON:", data);
+
+  localStorage.setItem("token", data.access_token);
+  localStorage.setItem("role", data.role);
+
+  if (data.role === "researcher") {
+    mostrar("formAnalitica");
+  } else if (data.role === "patient") {
     mostrar("form1");
+  }
 }
 
 function mostrar(id) {
-    
-    const secciones = ["form1", "form2", "formAnalitica", "resultados"];
+
+    const secciones = ["login", "form1", "form2", "formAnalitica", "resultados"];
 
     secciones.forEach(sec => {
         const elemento = document.getElementById(sec);
-        elemento.style.display = "none";
-        elemento.classList.remove("visible");
+        if (elemento) {
+            elemento.style.display = "none";
+            elemento.classList.remove("visible");
+        }
     });
 
     const seleccionado = document.getElementById(id);
@@ -23,6 +52,7 @@ function mostrar(id) {
         seleccionado.classList.add("visible");
     }, 20);
 }
+
 
 function recogerDatos() {
     return {
@@ -47,6 +77,45 @@ function recogerDatos() {
         indice_placa: parseFloat(document.getElementById("indice_placa").value)
     };
 }
+async function guardarDatosClinicos() {
+
+  const token = localStorage.getItem("token");
+  if (!token) {
+    alert("Ez zaude identifikatuta");
+    mostrar("login");
+    return;
+  }
+
+  const patientCode = document.getElementById("patientCode").value;
+
+  const res = await fetch(
+    `/api/researcher/datos-clinicos/${patientCode}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      body: JSON.stringify({
+        il6: parseFloat(document.getElementById("il6").value),
+        indice_placa: parseFloat(document.getElementById("placa").value),
+        observaciones: document.getElementById("observaciones").value
+      })
+    }
+  );
+
+  if (!res.ok) {
+    alert("Errorea datu klinikoak gordetzean");
+    return;
+  }
+
+  alert("Datu klinikoak behar bezala gordeta");
+
+  // opcional: limpiar formulario
+  document.getElementById("il6").value = "";
+  document.getElementById("placa").value = "";
+  document.getElementById("observaciones").value = "";
+}
 
 function enviarDatos() {
     const datos = recogerDatos();
@@ -70,3 +139,6 @@ function enviarDatos() {
     });
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  mostrar("login");
+});

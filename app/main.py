@@ -3,7 +3,17 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from app.schemas import DatosEntrada
+from fastapi import HTTPException
+from app.schemas import DatosClinicos, DatosEntrada, DatosFormulario, LoginRequest
+from fastapi import Depends, HTTPException
+from sqlalchemy.orm import Session
+import hashlib, os
+
+from app.database import get_db
+from app.models import Patient
+from app.auth import create_access_token
+from pydantic import BaseModel
+
 from app.services.scoring import calcular_score
 
 app = FastAPI(title="Bihotza Taupadak")
@@ -14,18 +24,111 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 # Plantillas HTML
 templates = Jinja2Templates(directory="app/templates")
 
+@app.post("/api/login")
+def login(data: LoginRequest, db: Session = Depends(get_db)):
+
+    # 1️⃣ ¿Es investigador?
+    if data.username == "investigador" and data.password == "investigador":
+        token = create_access_token({"role": "researcher"})
+        return {"access_token": token, "role": "researcher"}
+
+    # 2️⃣ ¿Es paciente? (username = patient_code)
+    patient = db.query(Patient)\
+        .filter_by(patient_code=data.username)\
+        .first()
+
+    if patient:
+        pin_hash = hashlib.sha256(data.password.encode()).hexdigest()
+        if patient.pin_hash == pin_hash:
+            token = create_access_token({
+                "role": "patient",
+                "patient_id": patient.id
+            })
+            return {"access_token": token, "role": "patient"}
+
+    # 3️⃣ Nada válido
+    raise HTTPException(status_code=401, detail="Credenciales incorrectas")
+
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 # ---------- API ----------
 
-@app.post("/api/calcular")
+""" @app.post("/api/calcular")
 def calcular(datos: DatosEntrada):
 
     score, factores = calcular_score(datos)
 
     # Clasificación
+    if score < 20:
+        nivel = "Baxua"
+    elif score < 40:
+        nivel = "Ertaina"
+    else:
+        nivel = "Altua"
+
+    return {
+        "score": score,
+        "nivel": nivel,
+        "factores": factores,
+        "recomendaciones_generales": recomendaciones_generales(nivel),
+        "recomendacion_personalizada": factores
+    }
+
+def recomendaciones_generales(nivel):
+    if nivel == "Baxua":
+        return [
+            "Egungo aho-higiene ohiturak mantendu"
+        ]
+    elif nivel == "Ertaina":
+        return [
+            "Hortzen garbiketa hobetu",
+            "Aldizkako azterketa gomendatua"
+        ]
+    else:
+        return [
+            "Ebaluazio periodontala",
+            "Jarraipen estua"
+        ]
+
+
+def recomendacion_personalizada(factores):
+    if "Inflamazioaren presentzia altua" in factores:
+        return "Inflamazio markatzaileak jarraipen berezia behar du."
+    return "Ez da arrisku faktore nabarmenik hauteman."
+ """
+
+@app.post("/api/investigador/datos-clinicos")
+def guardar_datos_clinicos(data: DatosClinicos, patient_id: str):
+    # guardar en BBDD
+    return {"status": "ok"}
+
+@app.post("/api/paciente/formularios")
+def guardar_formularios(data: DatosFormulario, patient_id: str):
+    # guardar answers en BBDD
+    return {"status": "ok"}
+
+@app.post("/api/paciente/procesar")
+def procesar(patient_id: str):
+
+    formularios = cargar_formularios(patient_id)
+    clinicos = cargar_datos_clinicos(patient_id)
+
+    if not formularios or not clinicos:
+        raise HTTPException(400, "Datuak osatu gabe")
+
+    # 🔥 AQUÍ RECONSTRUYES DatosEntrada
+    datos = DatosEntrada(
+        formulario1=formularios["formulario1"],
+        formulario2=formularios["formulario2"],
+        il6=clinicos.il6,
+        indice_placa=clinicos.indice_placa
+    )
+
+    score, factores = calcular_score(datos)
+
+      # Clasificación
     if score < 20:
         nivel = "Baxua"
     elif score < 40:

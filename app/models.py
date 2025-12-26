@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, Integer, DateTime, Float, ForeignKey, JSO
 from sqlalchemy.orm import relationship
 from datetime import datetime
 import uuid
-from database import Base
+from app.database import Base
 
 class Patient(Base):
     __tablename__ = "patients"
@@ -32,6 +32,7 @@ class Biomarker(Base):
     patient_id = Column(String, ForeignKey("patients.id"))
     il6_value = Column(Float)
     dental_plaque = Column(Float)
+    observations = Column(String)
     measured_at = Column(DateTime, default=datetime.utcnow)
 
     patient = relationship("Patient", back_populates="biomarkers")
