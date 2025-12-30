@@ -31,7 +31,7 @@
     mostrar("investigador");
   } else if (data.role === "patient") {
     document.getElementById("logoutBtn").style.display = "inline-block";
-    mostrar("form1");
+    mostrar("menuPaciente");
   }
   
 }
@@ -53,7 +53,7 @@ function logout() {
 
 function mostrar(id) {
 
-    const secciones = ["login", "form1", "form2", "formAnalitica", "resultados", "registrar", "investigador","listaPacientes"];
+    const secciones = ["login","resultadosPaciente","menuPaciente","analiticasPaciente", "form1", "form2", "formAnalitica", "resultados", "registrar", "investigador","listaPacientes"];
 
     secciones.forEach(sec => {
         const elemento = document.getElementById(sec);
@@ -261,6 +261,56 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("logoutBtn").style.display = "inline-block";
 
     if (role === "researcher") mostrar("investigador");
-    if (role === "patient") mostrar("form1");
+    if (role === "patient") mostrar("menuPaciente");
   }
 });
+
+async function mostrarAnaliticasPaciente() {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch("/api/patient/biomarkers", {
+    headers: { "Authorization": "Bearer " + token }
+  });
+
+  const data = await res.json();
+  mostrar("analiticasPaciente");
+
+  document.getElementById("il6Paciente").innerText = data.il6_value ?? "-";
+  document.getElementById("placaPaciente").innerText = data.dental_plaque ?? "-";
+  document.getElementById("fechaPaciente").innerText =
+    data.measured_at ? new Date(data.measured_at).toLocaleString() : "-";
+}
+
+async function mostrarResultadosPaciente() {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch("/api/patient/resultados", {
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  });
+
+  if (!res.ok) {
+    alert("Ezin dira emaitzak kalkulatu. Datu guztiak ez daude eskuragarri.");
+    return;
+  }
+
+  const data = await res.json();
+
+  // Mostrar sección
+  mostrar("resultadosPaciente");
+
+  // Pintar score y nivel
+  document.getElementById("scorePaciente").innerText = data.score;
+  document.getElementById("nivelPaciente").innerText = data.nivel;
+
+  // Pintar factores
+  const ul = document.getElementById("factoresPaciente");
+  ul.innerHTML = "";
+
+  data.factores.forEach(f => {
+    const li = document.createElement("li");
+    li.textContent = f;
+    ul.appendChild(li);
+  });
+}

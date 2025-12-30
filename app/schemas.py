@@ -31,8 +31,8 @@ class DatosClinicos(BaseModel):
 class DatosEntrada(BaseModel):
     formulario1: Formulario1
     formulario2: Formulario2
-    il6: float
-    indice_placa: float
+    il6_value: float
+    dental_plaque: float
 
 class LoginPaciente(BaseModel):
     patient_code: str

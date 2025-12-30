@@ -8,7 +8,7 @@ from app.schemas import DatosClinicos, DatosEntrada, DatosFormulario, LoginReque
 from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 import hashlib, os
-from app.routers import researcher
+from app.routers import researcher, patient
 from app.database import engine
 from app.models import Base
 
@@ -31,6 +31,7 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
 
 app.include_router(researcher.router)
+app.include_router(patient.router)
 
 
 @app.post("/api/login")
@@ -108,69 +109,6 @@ def recomendacion_personalizada(factores):
     return "Ez da arrisku faktore nabarmenik hauteman."
  """
 
-@app.post("/api/investigador/datos-clinicos")
-def guardar_datos_clinicos(data: DatosClinicos, patient_id: str):
-    # guardar en BBDD
-    return {"status": "ok"}
-
-@app.post("/api/paciente/formularios")
-def guardar_formularios(data: DatosFormulario, patient_id: str):
-    # guardar answers en BBDD
-    return {"status": "ok"}
-
-@app.post("/api/paciente/procesar")
-def procesar(patient_id: str):
-
-    formularios = cargar_formularios(patient_id)
-    clinicos = cargar_datos_clinicos(patient_id)
-
-    if not formularios or not clinicos:
-        raise HTTPException(400, "Datuak osatu gabe")
-
-    # 🔥 AQUÍ RECONSTRUYES DatosEntrada
-    datos = DatosEntrada(
-        formulario1=formularios["formulario1"],
-        formulario2=formularios["formulario2"],
-        il6=clinicos.il6,
-        indice_placa=clinicos.indice_placa
-    )
-
-    score, factores = calcular_score(datos)
-
-      # Clasificación
-    if score < 20:
-        nivel = "Baxua"
-    elif score < 40:
-        nivel = "Ertaina"
-    else:
-        nivel = "Altua"
-
-    return {
-        "score": score,
-        "nivel": nivel,
-        "factores": factores,
-        "recomendaciones_generales": recomendaciones_generales(nivel),
-        "recomendacion_personalizada": factores
-    }
-
-def recomendaciones_generales(nivel):
-    if nivel == "Baxua":
-        return [
-            "Egungo aho-higiene ohiturak mantendu"
-        ]
-    elif nivel == "Ertaina":
-        return [
-            "Hortzen garbiketa hobetu",
-            "Aldizkako azterketa gomendatua"
-        ]
-    else:
-        return [
-            "Ebaluazio periodontala",
-            "Jarraipen estua"
-        ]
 
 
-def recomendacion_personalizada(factores):
-    if "Inflamazioaren presentzia altua" in factores:
-        return "Inflamazio markatzaileak jarraipen berezia behar du."
-    return "Ez da arrisku faktore nabarmenik hauteman."
+
