@@ -41,3 +41,9 @@ class LoginPaciente(BaseModel):
 class LoginRequest(BaseModel):
     username: str
     password: str
+
+class BiomarkerCreate(BaseModel):
+    patient_id: str
+    il6_value: float
+    dental_plaque: float
+    observations: str | None = None

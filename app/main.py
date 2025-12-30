@@ -8,6 +8,9 @@ from app.schemas import DatosClinicos, DatosEntrada, DatosFormulario, LoginReque
 from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 import hashlib, os
+from app.routers import researcher
+from app.database import engine
+from app.models import Base
 
 from app.database import get_db
 from app.models import Patient
@@ -18,11 +21,17 @@ from app.services.scoring import calcular_score
 
 app = FastAPI(title="Bihotza Taupadak")
 
+
+Base.metadata.create_all(bind=engine)
+
 # Archivos estáticos
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 # Plantillas HTML
 templates = Jinja2Templates(directory="app/templates")
+
+app.include_router(researcher.router)
+
 
 @app.post("/api/login")
 def login(data: LoginRequest, db: Session = Depends(get_db)):

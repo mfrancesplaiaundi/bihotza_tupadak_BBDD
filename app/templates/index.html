@@ -23,7 +23,11 @@
 
 
 <header class="hero">
-    <h3>BIHOTZA TAUPAKA, IRRIBARREA AHOAN</h3>    
+    <h3>BIHOTZA TAUPAKA, IRRIBARREA AHOAN</h3>
+    <button id="logoutBtn" onclick="logout()" style="display:none;">
+  Logout
+</button>
+   
 </header>
 
 <main class="container">
@@ -144,11 +148,64 @@
     </section>
 
     <!-- ANALÍTICA -->
+    <section id="investigador" class="card oculto animate">
+        <h2>Ikertzailea</h2>
+
+        <button onclick="mostrar('registrar')">
+            Paziente berria sortu
+        </button>
+
+        <button onclick="mostrar('listaPacientes')">
+            Pazienteak ikusi
+        </button>
+
+        <button onclick="mostrarDatosClinicos()">
+            Datu klinikoak sartu
+        </button>
+    </section>
+
+    <section id="listaPacientes" class="card oculto animate">
+  <h3>Pazienteak</h3>
+
+  <button onclick="cargarPacientes()">Kargatu pazienteak</button>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Kodea</th>
+        <th>Sortze-data</th>
+        <th>IL-6</th>
+        <th>Plaka dentala</th>
+        <th>Oharrak</th>
+        <th>Azken neurketa</th>
+      </tr>
+    </thead>
+    <tbody id="tablaPacientes"></tbody>
+  </table>
+
+  <button onclick="mostrar('investigador')">Atzera</button>
+</section>
+
+
+    <section id="registrar" class="card oculto animate">
+        <h3>Paziente berria</h3>
+
+        <button onclick="registrarPaciente()">
+            Sortu pazientea
+        </button>
+
+        <pre id="resultadoPaciente"></pre>
+        <button onclick="atraslimpiar()">Atzera</button>
+
+    </section>
+     
     <section id="formAnalitica" class="card oculto animate">
         <h2>Analisi-balioak</h2>
         <form class="form-grid">
-            <label>Pazientearen kodea</label>
-            <input type="text" id="patientCode" placeholder="MN02">
+            <label>Pazientea</label>
+            <select id="patientSelect">
+                <option value="">-- Hautatu pazientea --</option>
+            </select>
 
             <label>PLAKA INDIZEA</label>
             <input type="number" step="0.1" min="0" required id="indice_placa" name="indice_placa">
@@ -156,13 +213,15 @@
             <label>INFLAMAZIOAREN PRESENTZIA: IL-6 maila (pg/mL)</label>
             <input type="number" min="0" max="100" required id="il6" name="il6">
 
-             <label>Oharrak</label>
-  <textarea id="observaciones"></textarea>
+            <label>Oharrak</label>
+            <textarea id="observaciones"></textarea>
 
+            <button type="button" onclick="guardarDatosClinicos()">Gorde datuak</button>
+            <button onclick="mostrar('investigador')">Atzera</button>
 
-  <button onclick="guardarDatosClinicos()">Gorde datuak</button>
         </form>
     </section>
+        
 
     <!-- RESULTADOS -->
     <section id="resultados" class="card oculto animate">
