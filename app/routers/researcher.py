@@ -81,7 +81,8 @@ def listar_pacientes_con_datos(
             "created_at": p.created_at,
             "il6_value": clinico.il6_value if clinico else None,
             "dental_plaque": clinico.dental_plaque if clinico else None,
-            "observations": clinico.observations if clinico else None
+            "observations": clinico.observations if clinico else None,
+            "measured_at": clinico.measured_at if clinico else None
         })
 
     return resultado
