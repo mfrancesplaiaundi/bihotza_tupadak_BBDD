@@ -18,7 +18,7 @@ def guardar_cuestionarios(
     payload=Depends(require_role("patient"))
 ):
     q = Questionnaire(
-        patient_id=payload["sub"],  # UUID del token
+        patient_id=payload["patient_id"],  # UUID del token
         answers=data.dict()
     )
     db.add(q)
@@ -55,14 +55,14 @@ def resultados_paciente(
 ):
     q = (
         db.query(Questionnaire)
-        .filter(Questionnaire.patient_id == payload["sub"])
+        .filter(Questionnaire.patient_id == payload["patient_id"])
         .order_by(Questionnaire.created_at.desc())
         .first()
     )
 
     b = (
         db.query(Biomarker)
-        .filter(Biomarker.patient_id == payload["sub"])
+        .filter(Biomarker.patient_id == payload["patient_id"])
         .order_by(Biomarker.measured_at.desc())
         .first()
     )
@@ -73,8 +73,8 @@ def resultados_paciente(
     datos = DatosEntrada(
         formulario1=q.answers["formulario1"],
         formulario2=q.answers["formulario2"],
-        il6=b.il6_value,
-        indice_placa=b.dental_plaque
+        il6_value=b.il6_value,
+        dental_plaque=b.dental_plaque
     )
 
     score, factores = calcular_score(datos)

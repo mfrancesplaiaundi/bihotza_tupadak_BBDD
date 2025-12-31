@@ -95,8 +95,7 @@ function recogerDatos() {
             erretzailea: document.getElementById("erretzailea").value,
             menpekotasuna: document.getElementById("menpekotasuna").value,
         },
-        il6: parseFloat(document.getElementById("il6").value),
-        indice_placa: parseFloat(document.getElementById("indice_placa").value)
+
     };
 }
 
@@ -175,6 +174,9 @@ async function cargarPacientes() {
       <td>${p.dental_plaque ?? "-"}</td>
       <td>${p.observations ?? "-"}</td>
       <td>${p.measured_at ? new Date(p.measured_at).toLocaleDateString() : "-"}</td>
+      <td>${p.has_questionnaire ? "✔" : "✖"}</td>
+      <td>${p.last_questionnaire_at? new Date(p.last_questionnaire_at).toLocaleDateString()   : "-"}</td>
+
     `;
 
     tbody.appendChild(fila);
@@ -313,4 +315,25 @@ async function mostrarResultadosPaciente() {
     li.textContent = f;
     ul.appendChild(li);
   });
+}
+async function guardarFormulariosPaciente() {
+  const token = localStorage.getItem("token");
+  const payload = recogerDatos();
+
+  const res = await fetch("/api/patient/questionnaires", {
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer " + token,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  });
+
+  if (!res.ok) {
+    alert("Errorea galdeketak gordetzean");
+    return;
+  }
+
+  alert("Galdeketak ondo gorde dira");
+  mostrar("menuPaciente");
 }

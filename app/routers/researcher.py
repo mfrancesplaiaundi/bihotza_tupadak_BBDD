@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 from app.auth import require_role
 from app.auth import create_access_token
 from app.schemas import DatosClinicos, BiomarkerCreate
-from app.models import Patient, Biomarker
+from app.models import Patient, Biomarker, Questionnaire
 from app.database import get_db
 
 
@@ -76,13 +76,23 @@ def listar_pacientes_con_datos(
             .first()
         )
 
+        q = (
+        db.query(Questionnaire)
+        .filter(Questionnaire.patient_id == p.id)
+        .order_by(Questionnaire.created_at.desc())
+        .first()
+        )
+
         resultado.append({
             "patient_code": p.patient_code,
             "created_at": p.created_at,
             "il6_value": clinico.il6_value if clinico else None,
             "dental_plaque": clinico.dental_plaque if clinico else None,
             "observations": clinico.observations if clinico else None,
-            "measured_at": clinico.measured_at if clinico else None
+            "measured_at": clinico.measured_at if clinico else None,
+            "has_questionnaire": q is not None,
+            "last_questionnaire_at": q.created_at if q else None
+
         })
 
     return resultado

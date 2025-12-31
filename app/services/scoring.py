@@ -156,27 +156,27 @@ def calcular_score(datos):
     # ---------- DATOS ANALÍTICOS ----------
      
     # ---------- IL-6 ----------
-    if datos.il6 <= 5:
+    if datos.il6_value <= 5:
         score += 0
         factores.append("Inflamazioaren presentzia baxua")
-    elif 5 < datos.il6 <= 10:
+    elif 5 < datos.il6_value <= 10:
         score += 10
         factores.append("Inflamazioaren presentzia ertaina")
-    elif datos.il6 > 10:
+    elif datos.il6_value > 10:
         score += 20
         factores.append("Inflamazioaren presentzia altua")
 
     # ---------- Plaka Indizea ----------
-    if datos.indice_placa <= 1:
+    if datos.dental_plaque <= 1:
         score += 0
         factores.append("Higiene maila: Ona")
-    elif 1 < datos.indice_placa <= 2:
+    elif 1 < datos.dental_plaque <= 2:
         score += 5
         factores.append("Higiene maila: Bitartekoa")
-    elif 2 < datos.indice_placa <= 3:
+    elif 2 < datos.dental_plaque <= 3:
         score += 10
         factores.append("Odontologoa bisitatu, aho-hortz higiene inguruko neurri egokiak aktibatzeko")
-    elif datos.indice_placa > 3:
+    elif datos.dental_plaque > 3:
         score += 15
         factores.append("Odontologoa bisitatu, aho-hortz higiene inguruko neurri egokiak aktibatzeko")
 
