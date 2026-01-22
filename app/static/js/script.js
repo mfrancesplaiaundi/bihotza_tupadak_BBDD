@@ -305,6 +305,8 @@ async function mostrarResultadosPaciente() {
   // Pintar score y nivel
   document.getElementById("scorePaciente").innerText = data.score;
   document.getElementById("nivelPaciente").innerText = data.nivel;
+  document.getElementById("factoresGenerales").innerText = data.recomendaciones_generales;
+
 
   // Pintar factores
   const ul = document.getElementById("factoresPaciente");
@@ -315,6 +317,8 @@ async function mostrarResultadosPaciente() {
     li.textContent = f;
     ul.appendChild(li);
   });
+
+
 }
 async function guardarFormulariosPaciente() {
   const token = localStorage.getItem("token");

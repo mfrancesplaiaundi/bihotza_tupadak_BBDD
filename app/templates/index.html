@@ -31,77 +31,78 @@
 </header>
 
 <main class="container">
-<section id="login" class="visible">
-  <h2>Sarbidea</h2>
-  <input id="user" placeholder="Kodea / Erabiltzailea">
-  <input id="pass" type="password" placeholder="PIN / Pasahitza">
-<button type="button" onclick="login()">Sartu</button>
-</section>
-<section id="menuPaciente" class="card oculto animate">
-  <h2>Pazientea</h2>
+    <section id="login" class="visible">
+    <h2>Sarbidea</h2>
+    <input id="user" placeholder="Kodea / Erabiltzailea">
+    <input id="pass" type="password" placeholder="PIN / Pasahitza">
+    <button type="button" onclick="login()">Sartu</button>
+    </section>
+    <section id="menuPaciente" class="card oculto animate">
+    <h2>Pazientea</h2>
 
-  <button onclick="mostrar('form1')">
-    Galdeketak bete
-  </button>
+    <button onclick="mostrar('form1')">
+        Galdeketak bete
+    </button>
 
-  <button onclick="mostrarAnaliticasPaciente()">
-    Nire analitikak ikusi
-  </button>
+    <button onclick="mostrarAnaliticasPaciente()">
+        Nire analitikak ikusi
+    </button>
 
-  <button onclick="mostrarResultadosPaciente()">
-    Emaitzak ikusi
-  </button>
-</section>
+    <button onclick="mostrarResultadosPaciente()">
+        Emaitzak ikusi
+    </button>
+    </section>
 
-<section id="analiticasPaciente" class="card oculto animate">
-  <h2>Nire analitikak</h2>
+    <section id="analiticasPaciente" class="card oculto animate">
+    <h2>Nire analitikak</h2>
 
-  <div class="analitica-box">
+    <div class="analitica-box">
+        <p>
+        <strong>IL-6 balioa:</strong>
+        <span id="il6Paciente">-</span>
+        </p>
+
+        <p>
+        <strong>Plaka dentala:</strong>
+        <span id="placaPaciente">-</span>
+        </p>
+
+        <p>
+        <strong>Neurketa data:</strong>
+        <span id="fechaPaciente">-</span>
+        </p>
+    </div>
+
+    <p class="info">
+        Datu hauek ikertzaileak sartu ditu.  
+        Zalantzarik izanez gero, jarri harremanetan klinikarekin.
+    </p>
+
+    <button onclick="mostrar('menuPaciente')" >
+        Atzera
+    </button>
+    </section>
+    <section id="resultadosPaciente" class="card oculto animate">
+    <h2>Emaitzak</h2>
+
     <p>
-      <strong>IL-6 balioa:</strong>
-      <span id="il6Paciente">-</span>
+        <strong>Score:</strong>
+        <span class="score-ejemplo" id="scorePaciente">-</span>
     </p>
 
     <p>
-      <strong>Plaka dentala:</strong>
-      <span id="placaPaciente">-</span>
+        <strong>Arrisku maila:</strong>
+        <span id="nivelPaciente">-</span><br><br>
+        <span class="indicacion" id="factoresGenerales">-</span>
     </p>
 
-    <p>
-      <strong>Neurketa data:</strong>
-      <span id="fechaPaciente">-</span>
-    </p>
-  </div>
+    <h2>Kontuan hartu beharreko faktoreak</h2>
+    <ul id="factoresPaciente"></ul>
 
-  <p class="info">
-    Datu hauek ikertzaileak sartu ditu.  
-    Zalantzarik izanez gero, jarri harremanetan klinikarekin.
-  </p>
-
-  <button onclick="mostrar('menuPaciente')" >
-    Atzera
-  </button>
-</section>
-<section id="resultadosPaciente" class="card oculto animate">
-  <h2>Emaitzak</h2>
-
-  <p>
-    <strong>Score:</strong>
-    <span id="scorePaciente">-</span>
-  </p>
-
-  <p>
-    <strong>Arrisku maila:</strong>
-    <span id="nivelPaciente">-</span>
-  </p>
-
-  <h3>Kontuan hartu beharreko faktoreak</h3>
-  <ul id="factoresPaciente"></ul>
-
-  <button onclick="mostrar('menuPaciente')">
-    Atzera
-  </button>
-</section>
+    <button onclick="mostrar('menuPaciente')">
+        Atzera
+    </button>
+    </section>
 
     <!-- FORM 1 -->
     <section id="form1" class="card oculto animate">

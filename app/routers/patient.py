@@ -79,12 +79,14 @@ def resultados_paciente(
 
     score, factores = calcular_score(datos)
 
-    if score < 20:
-        nivel = "Baxua"
-    elif score < 40:
-        nivel = "Ertaina"
+    if score < 25:
+        nivel = "🟢 Berdea 🟢"
+    elif 25 < score < 50:
+        nivel = "🟡 Horia 🟡"
+    elif 50 < score < 75:
+        nivel = "🟠 Laranja 🟠"
     else:
-        nivel = "Altua"
+        nivel = "🔴 Gorria 🔴"
 
     return {
         "score": score,
@@ -95,19 +97,21 @@ def resultados_paciente(
     }
 
 def recomendaciones_generales(nivel):
-    if nivel == "Baxua":
+    if nivel == "Berdea":
         return [
-            "Egungo aho-higiene ohiturak mantendu"
+            "Eutsi horri! segi zure ahoko eta bihotzeko osasuna zaintzen!"
         ]
-    elif nivel == "Ertaina":
+    elif nivel == "Horia":
         return [
-            "Hortzen garbiketa hobetu",
-            "Aldizkako azterketa gomendatua"
+            "Aldaketa txiki batek bide handia ireki dezake. Egin pausotxo bat eta zure ahoak eta bihotzak ederki nabarituko dute."
+        ]
+    elif nivel == "Laranja":
+        return [
+            "Gelditu une batez eta entzun zure gorputza. Zaintza txiki batzuk orain ahoko eta bihotzeko osasunari, eta ongizate handiagoa gero."
         ]
     else:
         return [
-            "Ebaluazio periodontala",
-            "Jarraipen estua"
+            "Hau da zure unea: hartu norabidea berriro. Zure ahoko eta bihotzeko osasuna lehentasun bihurtzen duzunean, bidea argituko zaizu berriz."
         ]
 
 
