@@ -176,7 +176,7 @@ async function cargarPacientes() {
       <td>${p.measured_at ? new Date(p.measured_at).toLocaleDateString() : "-"}</td>
       <td>${p.has_questionnaire ? "✔" : "✖"}</td>
       <td>${p.last_questionnaire_at? new Date(p.last_questionnaire_at).toLocaleDateString()   : "-"}</td>
-
+      <td><button onclick="resetPinPaciente('${p.patient_id}')">Reset PIN</button></td>
     `;
 
     tbody.appendChild(fila);
@@ -336,4 +336,31 @@ async function guardarFormulariosPaciente() {
 
   alert("Galdeketak ondo gorde dira");
   mostrar("menuPaciente");
+}
+
+async function resetPinPaciente(patientId) {
+  if (!confirm("PIN berria sortuko da. Jarraitu?")) return;
+
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`/api/researcher/patients/${patientId}/reset-pin`, {
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  });
+
+  if (!res.ok) {
+    alert("Errorea PIN berria sortzean");
+    return;
+  }
+
+  const data = await res.json();
+
+  alert(
+    "PIN berria sortua:\n\n" +
+    "Paziente kodea: " + data.patient_code + "\n" +
+    "PIN berria: " + data.new_pin + "\n\n" +
+    "⚠️ PIN hau pazienteari eman eta ez da berriro erakutsiko."
+  );
 }

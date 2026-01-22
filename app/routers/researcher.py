@@ -85,6 +85,7 @@ def listar_pacientes_con_datos(
 
         resultado.append({
             "patient_code": p.patient_code,
+            "patient_id": p.id,
             "created_at": p.created_at,
             "il6_value": clinico.il6_value if clinico else None,
             "dental_plaque": clinico.dental_plaque if clinico else None,
@@ -128,3 +129,26 @@ def guardar_biomarcador(
     db.add(biomarker)
     db.commit()
     return {"status": "ok"}
+
+
+@router.post("/patients/{patient_id}/reset-pin")
+def reset_pin_paciente(
+    patient_id: str,
+    db: Session = Depends(get_db),
+    _=Depends(require_role("researcher"))
+):
+    patient = db.query(Patient).filter(Patient.id == patient_id).first()
+
+    if not patient:
+        raise HTTPException(status_code=404, detail="Paciente no encontrado")
+
+    nuevo_pin = secrets.token_hex(2)
+    patient.pin_hash = hashlib.sha256(nuevo_pin.encode()).hexdigest()
+
+    db.commit()
+
+    return {
+        "patient_code": patient.patient_code,
+        "new_pin": nuevo_pin,
+        "message": "PIN berria sortu da. Erabiltzaileari eman."
+    }
