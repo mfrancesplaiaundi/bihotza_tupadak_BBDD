@@ -309,13 +309,31 @@ async function mostrarResultadosPaciente() {
 
 
   // Pintar factores
-  const ul = document.getElementById("factoresPaciente");
-  ul.innerHTML = "";
+  // const ul = document.getElementById("factoresPaciente");
+  // ul.innerHTML = "";
 
-  data.factores.forEach(f => {
+  // data.factores.forEach(f => {
+  //   const li = document.createElement("li");
+  //   li.textContent = f;
+  //   ul.appendChild(li);
+  // });
+
+  const ia=data.recomendacion_personalizada;
+
+  const iaTexto=document.getElementById("iaTexto");
+  iaTexto.innerText=ia?.texto ? ia.texto : "-";
+
+  const iaLinks = document.getElementById("iaLinks");
+  iaLinks.innerHTML = "";
+  (ia?.links || []).forEach(l => {
     const li = document.createElement("li");
-    li.textContent = f;
-    ul.appendChild(li);
+    const a = document.createElement("a");
+    a.href = l.url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.textContent = l.title || l.url;
+    li.appendChild(a);
+    iaLinks.appendChild(li);
   });
 
 
