@@ -18,13 +18,13 @@
     alert("Sarbide okerra");
     return;
   }
-  console.log("Resultado:", res);
+
 
   const data = await res.json();
-  console.log("Respuesta JSON:", data);
 
-  localStorage.setItem("token", data.access_token);
-  localStorage.setItem("role", data.role);
+
+  sessionStorage.setItem("token", data.access_token);
+  sessionStorage.setItem("role", data.role);
 
   if (data.role === "researcher") {
     document.getElementById("logoutBtn").style.display = "inline-block";
@@ -37,8 +37,8 @@
 }
 
 function logout() {
-  localStorage.removeItem("token");
-  localStorage.removeItem("role");
+  sessionStorage.removeItem("token");
+  sessionStorage.removeItem("role");
 
   // opcional: limpiar selects / formularios
   document.querySelectorAll("input, textarea").forEach(el => el.value = "");
@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function registrarPaciente() {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   const res = await fetch("/api/researcher/patients", {
     method: "POST",
@@ -147,7 +147,7 @@ async function registrarPaciente() {
 }
 
 async function cargarPacientes() {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   const res = await fetch("/api/researcher/patients", {
     headers: {
@@ -184,7 +184,7 @@ async function cargarPacientes() {
 }
 
 async function cargarPacientesSelect() {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   const res = await fetch("/api/researcher/patients/select", {
     headers: {
@@ -216,7 +216,7 @@ function mostrarDatosClinicos() {
 }
 
 async function guardarDatosClinicos() {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   const payload = {
     patient_id: document.getElementById("patientSelect").value,
@@ -254,12 +254,12 @@ async function guardarDatosClinicos() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   if (!token) {
     mostrar("login");
   } else {
     // opcional: restaurar vista según rol
-    const role = localStorage.getItem("role");
+    const role = sessionStorage.getItem("role");
     document.getElementById("logoutBtn").style.display = "inline-block";
 
     if (role === "researcher") mostrar("investigador");
@@ -268,7 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function mostrarAnaliticasPaciente() {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   const res = await fetch("/api/patient/biomarkers", {
     headers: { "Authorization": "Bearer " + token }
@@ -284,13 +284,20 @@ async function mostrarAnaliticasPaciente() {
 }
 
 async function mostrarResultadosPaciente() {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   const res = await fetch("/api/patient/resultados", {
     headers: {
       "Authorization": "Bearer " + token
     }
   });
+
+  if (res.status === 401 || res.status === 403) {
+    logout();
+    alert("Sesión caducada. Vuelve a iniciar sesión.");
+  return;
+  }
+
 
   if (!res.ok) {
     alert("Ezin dira emaitzak kalkulatu. Datu guztiak ez daude eskuragarri.");
@@ -336,10 +343,32 @@ async function mostrarResultadosPaciente() {
     iaLinks.appendChild(li);
   });
 
+  const ulSources = document.getElementById("iaSources");
+  ulSources.innerHTML = "";
+
+  const sources = ia?.sources || [];
+
+  if (sources.length === 0) {
+    const li = document.createElement("li");
+    li.textContent = "—";
+    ulSources.appendChild(li);
+  } else {
+    sources.forEach(s => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = s.url;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = s.title || s.url;
+      li.appendChild(a);
+      ulSources.appendChild(li);
+    });
+  }
+
 
 }
 async function guardarFormulariosPaciente() {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const payload = recogerDatos();
 
   const res = await fetch("/api/patient/questionnaires", {
@@ -363,7 +392,7 @@ async function guardarFormulariosPaciente() {
 async function resetPinPaciente(patientId) {
   if (!confirm("PIN berria sortuko da. Jarraitu?")) return;
 
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   const res = await fetch(`/api/researcher/patients/${patientId}/reset-pin`, {
     method: "POST",

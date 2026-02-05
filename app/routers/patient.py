@@ -5,6 +5,7 @@ from app.models import Patient, Questionnaire, Biomarker
 from app.schemas import DatosFormulario, DatosEntrada
 from app.auth import require_role
 from app.services.scoring import calcular_score
+from app.rag.recommender import recomendar_links, recomendar_sources
 
 
 import hashlib
@@ -152,27 +153,41 @@ def recomendacion_personalizada_ia(
     # (provisional)
     texto = []
     links = []
+    sources = []
 
     f1 = answers.get("formulario1", {})
     if f1.get("cepillado") in ("behin", "gutxi"):
         texto.append("Intenta cepillarte al menos 2 veces al día (mañana y noche).\n")
-        links.append({"title": "Técnica de cepillado (video)", "url": "https://www.youtube.com/results?search_query=t%C3%A9cnica+cepillado+dental"})
+    
 
     if f1.get("osagarria") == "ez":
         texto.append("Añade higiene interdental (hilo/cepillos interproximales) 1 vez al día.\n")
-        links.append({"title": "Higiene interdental (guía)", "url": "https://www.youtube.com/results?search_query=hilo+dental+uso"})
+    
 
     if placa >= 2:
         texto.append("Con índice de placa elevado, refuerza rutina y considera una limpieza profesional.\n")
     if il6 > 10:
         texto.append("Si hay inflamación alta, sigue las indicaciones del profesional y mantén hábitos constantes.\n")
 
+    perfil = {
+        "score": score,
+        "nivel_code": nivel_code,
+        "factores": factores,
+        "formulario1": answers.get("formulario1", {}),
+        "formulario2": answers.get("formulario2", {}),
+        "il6": il6,
+        "placa": placa,
+    }
+
+    links = recomendar_links(perfil)
+    sources = recomendar_sources(perfil)
+
     if not texto:
         return fallback
 
     return {
         "texto": " ".join(texto),
-        "links": links[:3],
-        "sources": [],      
-        "modo": "provisional"
+        "links": links,
+        "sources": sources,      
+        "modo": "heuristica"
     }
