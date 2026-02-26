@@ -200,3 +200,24 @@ textarea {
     top: 46px;
     pointer-events: none;
 }
+
+
+/* ---------- FOOTER ---------- */
+
+.btn-clinica-primary {
+  background-color: #007bff; /* Azul médico estándar */
+  color: #ffffff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px; /* Bordes suavizados */
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.btn-clinica-primary:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px); /* Efecto de elevación */
+  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+}

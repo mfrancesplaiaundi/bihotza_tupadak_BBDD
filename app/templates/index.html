@@ -24,7 +24,7 @@
 
 <header class="hero">
     <h3>BIHOTZA TAUPAKA, IRRIBARREA AHOAN</h3>
-    <button id="logoutBtn" onclick="logout()" style="display:none;">
+    <button class=btn-clinica-primary id="logoutBtn" onclick="logout()" style="display:none;">
   Irteen
 </button>
    
@@ -35,22 +35,22 @@
     <h2>Sarbidea</h2>
     <input id="user" placeholder="Kodea / Erabiltzailea">
     <input id="pass" type="password" placeholder="PIN / Pasahitza">
-    <button type="button" onclick="login()">Sartu</button>
+    <button class=btn-clinica-primary type="button" onclick="login()">Sartu</button>
     </section>
 
     <!-- VISTA PACIENTE: Menu paciente -->
     <section id="menuPaciente" class="card oculto animate">
     <h2>Parte-hartzailea</h2>
 
-    <button onclick="mostrar('form1')">
+    <button class=btn-clinica-primary onclick="mostrar('form1')">
         Galdeketak bete
     </button>
 
-    <button onclick="mostrarAnaliticasPaciente()">
+    <button class=btn-clinica-primary onclick="mostrarAnaliticasPaciente()">
         Nire analitikak ikusi
     </button>
 
-    <button onclick="mostrarResultadosPaciente()">
+    <button class=btn-clinica-primary onclick="mostrarResultadosPaciente()">
         Emaitzak ikusi
     </button>
     </section>
@@ -92,7 +92,7 @@
         Zalantzarik izanez gero, jarri harremanetan klinikarekin.
     </p>
 
-    <button onclick="mostrar('menuPaciente')" >
+    <button class=btn-clinica-primary onclick="mostrar('menuPaciente')" >
         Atzera
     </button>
     </section>
@@ -123,7 +123,7 @@
     <h2>Gomendatutako iturriak eta gidak</h2>
     <ul id="iaSources"></ul>
 
-    <button onclick="mostrar('menuPaciente')">
+    <button class=btn-clinica-primary onclick="mostrar('menuPaciente')">
         Atzera
     </button>
     </section>
@@ -170,7 +170,7 @@
             </div>
 
 
-            <button type="button" class="btn" onclick="mostrar('form2')">Gorde</button>
+            <button class=btn-clinica-primary type="button" class="btn" onclick="mostrar('form2')">Gorde</button>
         </form>
     </section>
 
@@ -234,7 +234,7 @@
                 </select><br>
             </div>
 
-            <button type="button" class="btn" onclick="guardarFormulariosPaciente()">Gorde</button>
+            <button class=btn-clinica-primary type="button" class="btn" onclick="guardarFormulariosPaciente()">Gorde</button>
         </form>
     </section>
 
@@ -242,15 +242,15 @@
     <section id="investigador" class="card oculto animate">
         <h2>Ikertzailea</h2>
 
-        <button onclick="mostrar('registrar')">
+        <button class=btn-clinica-primary onclick="mostrar('registrar')">
             Parte-hartzaile berria sortu
         </button>
 
-        <button onclick="mostrar('listaPacientes')">
+        <button class=btn-clinica-primary onclick="mostrar('listaPacientes')">
             Parte-hartzaileak ikusi
         </button>
 
-        <button onclick="mostrarDatosClinicos()">
+        <button class=btn-clinica-primary onclick="mostrarDatosClinicos()">
             Datu klinikoak sartu
         </button>
     </section>
@@ -261,7 +261,7 @@
     <section id="listaPacientes" class="card oculto animate">
   <h3>Parte-hartzaileak</h3>
 
-  <button onclick="cargarPacientes()">Kargatu Parte-hartzaileak</button>
+  <button class=btn-clinica-primary onclick="cargarPacientes()">Kargatu Parte-hartzaileak</button>
 
   <table border="1">
     <thead>
@@ -281,7 +281,7 @@
     <tbody id="tablaPacientes"></tbody>
   </table>
 
-  <button onclick="mostrar('investigador')">Atzera</button>
+  <button class=btn-clinica-primary onclick="mostrar('investigador')">Atzera</button>
 </section>
 
     <!-- VISTA INVESTIGADOR: CREAR NUEVO PACIENTE -->
@@ -289,12 +289,12 @@
     <section id="registrar" class="card oculto animate">
         <h3>Partehartzaile berria</h3>
 
-        <button onclick="registrarPaciente()">
+        <button class=btn-clinica-primary onclick="registrarPaciente()">
             Sortu partehartzailea
         </button>
 
         <pre id="resultadoPaciente"></pre>
-        <button onclick="atraslimpiar()">Atzera</button>
+        <button class=btn-clinica-primary onclick="atraslimpiar()">Atzera</button>
 
     </section>
      
@@ -323,8 +323,8 @@
             <label>Oharrak</label>
             <textarea id="observaciones"></textarea>
 
-            <button type="button" onclick="guardarDatosClinicos()">Gorde datuak</button>
-            <button onclick="mostrar('investigador')">Atzera</button>
+            <button class=btn-clinica-primary type="button" onclick="guardarDatosClinicos()">Gorde datuak</button>
+            <button class=btn-clinica-primary onclick="mostrar('investigador')">Atzera</button>
 
         </form>
     </section>
