@@ -11,7 +11,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", "lqaKCls6AaSzpT3uNyi2E0iVy8sWtmVhECUYl0ZwDS
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/researcher/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/login")
 
 def create_access_token(data: Dict[str, Any], expires_minutes: int = ACCESS_TOKEN_EXPIRE_MINUTES) -> str:
     to_encode = data.copy()

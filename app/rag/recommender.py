@@ -93,9 +93,7 @@ def recomendar_links(perfil: dict, max_links: int = 4, lang: str = "es") -> list
 
 
 def recomendar_sources(perfil: dict, max_sources: int = 3, lang: str = "es") -> list[dict]:
-    """
-    Devuelve "fuentes" más tipo PDF/guías (para leer), separadas de links.
-    """
+ 
     tags = _tags_desde_formularios(perfil)
 
     candidatos = []

@@ -172,6 +172,8 @@ async function cargarPacientes() {
       <td>${new Date(p.created_at).toLocaleDateString()}</td>
       <td>${p.il6_value ?? "-"}</td>
       <td>${p.dental_plaque ?? "-"}</td>
+      <td>${p.tooth_count ?? "-"}</td>
+      <td>${p.ph_value ?? "-"}</td>
       <td>${p.observations ?? "-"}</td>
       <td>${p.measured_at ? new Date(p.measured_at).toLocaleDateString() : "-"}</td>
       <td>${p.has_questionnaire ? "✔" : "✖"}</td>
@@ -222,6 +224,8 @@ async function guardarDatosClinicos() {
     patient_id: document.getElementById("patientSelect").value,
     il6_value: parseFloat(document.getElementById("il6").value),
     dental_plaque: parseFloat(document.getElementById("indice_placa").value),
+    tooth_count: document.getElementById("dientes").value,
+    ph_value: parseFloat(document.getElementById("ph").value),
     observations: document.getElementById("observaciones").value
   };
 
@@ -279,6 +283,8 @@ async function mostrarAnaliticasPaciente() {
 
   document.getElementById("il6Paciente").innerText = data.il6_value ?? "-";
   document.getElementById("placaPaciente").innerText = data.dental_plaque ?? "-";
+  document.getElementById("dientesPaciente").innerText = data.tooth_count ?? "-";
+  document.getElementById("phPaciente").innerText = data.ph_value ?? "-";
   document.getElementById("fechaPaciente").innerText =
     data.measured_at ? new Date(data.measured_at).toLocaleString() : "-";
 }
@@ -305,6 +311,11 @@ async function mostrarResultadosPaciente() {
   }
 
   const data = await res.json();
+  console.log("RESULTADOS /api/patient/resultados ->", data);
+console.log("IA ->", data.recomendacion_personalizada);
+console.log("Links ->", data.recomendacion_personalizada?.links);
+console.log("Sources ->", data.recomendacion_personalizada?.sources);
+
 
   // Mostrar sección
   mostrar("resultadosPaciente");
@@ -312,18 +323,41 @@ async function mostrarResultadosPaciente() {
   // Pintar score y nivel
   document.getElementById("scorePaciente").innerText = data.score;
   document.getElementById("nivelPaciente").innerText = data.nivel;
-  document.getElementById("factoresGenerales").innerText = data.recomendaciones_generales;
+  document.getElementById("mensajeGeneral").innerText = data.mensaje_general;
 
 
   // Pintar factores
-  // const ul = document.getElementById("factoresPaciente");
-  // ul.innerHTML = "";
+  const listaFactores = document.getElementById("factoresPaciente");
+  listaFactores.innerHTML = "";
 
-  // data.factores.forEach(f => {
-  //   const li = document.createElement("li");
-  //   li.textContent = f;
-  //   ul.appendChild(li);
-  // });
+  data.factores.forEach(f => {
+    if (f.includes("Endokarditis")) {
+      const li = document.createElement("li");
+      li.textContent = f;
+      listaFactores.appendChild(li);
+    }
+    else if (f.includes("Erretzailea")){
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = "https://osasuneskola.osakidetza.eus/es/medialib/html/tabakismoa-prebenitzea";
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = "Erretzailea zara, esteka hau kontsultatu";
+      li.appendChild(a);
+      listaFactores.appendChild(li);
+    }
+    else if (f.includes("Diabetesa")){
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = "https://osasuneskola.osakidetza.eus/es/medialib/html/diabetesa";
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = "Diabetesa detektatu da, esteka hau kontsultatu";
+      li.appendChild(a);
+      listaFactores.appendChild(li);
+    }
+    
+  });
 
   const ia=data.recomendacion_personalizada;
 

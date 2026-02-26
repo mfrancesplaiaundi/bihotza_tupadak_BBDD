@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi import HTTPException
-from app.schemas import DatosClinicos, DatosEntrada, DatosFormulario, LoginRequest
+from app.schemas import DatosEntrada, DatosFormulario, LoginRequest
 from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 import hashlib, os

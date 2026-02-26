@@ -25,7 +25,7 @@
 <header class="hero">
     <h3>BIHOTZA TAUPAKA, IRRIBARREA AHOAN</h3>
     <button id="logoutBtn" onclick="logout()" style="display:none;">
-  Logout
+  Irteen
 </button>
    
 </header>
@@ -37,8 +37,10 @@
     <input id="pass" type="password" placeholder="PIN / Pasahitza">
     <button type="button" onclick="login()">Sartu</button>
     </section>
+
+    <!-- VISTA PACIENTE: Menu paciente -->
     <section id="menuPaciente" class="card oculto animate">
-    <h2>Pazientea</h2>
+    <h2>Parte-hartzailea</h2>
 
     <button onclick="mostrar('form1')">
         Galdeketak bete
@@ -53,18 +55,30 @@
     </button>
     </section>
 
+    <!-- VISTA PACIENTE: VALORES METIDOS POR EL INVESTIGADOR, VALORES ANALITICOS -->
+
     <section id="analiticasPaciente" class="card oculto animate">
     <h2>Nire analitikak</h2>
 
     <div class="analitica-box">
         <p>
-        <strong>IL-6 balioa:</strong>
+        <strong>IL-6 balioa (pg/mL):</strong>
         <span id="il6Paciente">-</span>
         </p>
 
         <p>
-        <strong>Plaka dentala:</strong>
+        <strong>Plaka-indizea:</strong>
         <span id="placaPaciente">-</span>
+        </p>
+
+        <p>
+        <strong>Ahoko hortzen kontaketa:</strong>
+        <span id="dientesPaciente">-</span>
+        </p>
+
+        <p>
+        <strong>Ahoko pHaren neurketa:</strong>
+        <span id="phPaciente">-</span>
         </p>
 
         <p>
@@ -82,6 +96,8 @@
         Atzera
     </button>
     </section>
+
+    <!-- VISTA PACIENTE: RESULTADOS PACIENTE -->
     <section id="resultadosPaciente" class="card oculto animate">
     <h2>Emaitzak</h2>
 
@@ -93,13 +109,18 @@
     <p>
         <strong>Arrisku maila:</strong>
         <span id="nivelPaciente">-</span><br><br>
-        <span class="indicacion" id="factoresGenerales">-</span>
+        <span class="indicacion" id="mensajeGeneral">-</span>
+    </p>
+
+    <p>
+        <strong>Arrisku faktoreak:</strong>
+        <ul id="factoresPaciente">-</ul>
     </p>
 
     <h2>Gomendio pertsonalizatuak</h2>
     <span id="iaTexto">-</span><br>
     <ul id="iaLinks"></ul>
-    <h2>Fuentes y guías recomendadas</h2>
+    <h2>Gomendatutako iturriak eta gidak</h2>
     <ul id="iaSources"></ul>
 
     <button onclick="mostrar('menuPaciente')">
@@ -107,7 +128,7 @@
     </button>
     </section>
 
-    <!-- FORM 1 -->
+    <!-- VISTA PACIENTE: FORM 1 -->
     <section id="form1" class="card oculto animate">
         <h2>1. Galdetegia: AHO HIGIENEA</h2>
         <form class="form-grid" action="">
@@ -116,7 +137,7 @@
                 <label class="select-md-label">1. Zein maiztasunekin garbitzen dituzu hortzak?</label>
                 <select class="select-md" id="cepillado" name="cepillado" required>
                     <option value="" disabled selected>Aukeratu...</option>
-                    <option value="bitan">Egunean 2tan edo gehiagotan</option>
+                    <option value="bitan">Egunean bitan edo gehiagotan</option>
                     <option value="behin">Egunean behin</option>
                     <option value="gutxi">Gutxiago</option>
                 </select><br>
@@ -132,7 +153,7 @@
                     <option value="elektrikoa">Eskuila elektrikoa</option>
                     <option value="eskukoa">Eskuzko eskuila</option>
                 </select><br>
-                <label class="select-md-label">4. Hortz-tarteak garbitzeko metodo osagarriren bat (hortz-haria, eskuila interproximalak, silikonazko txotx edo “pick”-ak, irrigadorea, superfloss© moduko haria…) erabiltzen duzu?</label>
+                <label class="select-md-label">4. Hortz-tarteak garbitzeko metodo osagarriren bat (hortz-haria, eskuila interproximalak, silikonazko txotxak edo “pick”-ak, irrigadorea, superfloss© moduko haria…) erabiltzen duzu?</label>
                 <select class="select-md" id="osagarria" name="osagarria" required>
                     <option value="" disabled selected>Aukeratu...</option>
                     <option value="bai">Bai</option>
@@ -153,7 +174,7 @@
         </form>
     </section>
 
-    <!-- FORM 2 -->
+    <!-- VISTA PACIENTE: FORM 2 -->
     <section id="form2" class="card oculto animate">
         <h2>2. Galdetegia: BIHOTZ OSASUNAREN eta MENPEKOTASUN-MAILAREN INGURUKO GALDEKETA</h2>
         <form class="form-grid">
@@ -217,16 +238,16 @@
         </form>
     </section>
 
-    <!-- ANALÍTICA -->
+    <!-- VISTA INVESTIGADOR: PANTALLA PRINCIPAL BOTONES -->
     <section id="investigador" class="card oculto animate">
         <h2>Ikertzailea</h2>
 
         <button onclick="mostrar('registrar')">
-            Paziente berria sortu
+            Parte-hartzaile berria sortu
         </button>
 
         <button onclick="mostrar('listaPacientes')">
-            Pazienteak ikusi
+            Parte-hartzaileak ikusi
         </button>
 
         <button onclick="mostrarDatosClinicos()">
@@ -234,18 +255,23 @@
         </button>
     </section>
 
-    <section id="listaPacientes" class="card oculto animate">
-  <h3>Pazienteak</h3>
 
-  <button onclick="cargarPacientes()">Kargatu pazienteak</button>
+    <!-- VISTA INVESTIGADOR: TABLA DE LOS PACIENTES Y DATOS -->
+
+    <section id="listaPacientes" class="card oculto animate">
+  <h3>Parte-hartzaileak</h3>
+
+  <button onclick="cargarPacientes()">Kargatu Parte-hartzaileak</button>
 
   <table border="1">
     <thead>
       <tr>
         <th>Kodea</th>
         <th>Sortze-data</th>
-        <th>IL-6</th>
-        <th>Plaka dentala</th>
+        <th>IL-6 (pg/mL)</th>
+        <th>Plaka-indizea</th>
+        <th>Ahoko Hortzen kontaketa</th>
+        <th>pHaren neurketa</th>
         <th>Oharrak</th>
         <th>Azken neurketa</th>
         <th>Galdeketak eginda</th>
@@ -258,12 +284,13 @@
   <button onclick="mostrar('investigador')">Atzera</button>
 </section>
 
+    <!-- VISTA INVESTIGADOR: CREAR NUEVO PACIENTE -->
 
     <section id="registrar" class="card oculto animate">
-        <h3>Paziente berria</h3>
+        <h3>Partehartzaile berria</h3>
 
         <button onclick="registrarPaciente()">
-            Sortu pazientea
+            Sortu partehartzailea
         </button>
 
         <pre id="resultadoPaciente"></pre>
@@ -271,19 +298,27 @@
 
     </section>
      
+    <!-- VISTA INVESTIGADOR: METER DATOS ANALITICOS DEL PACIENTE-->
+
     <section id="formAnalitica" class="card oculto animate">
         <h2>Analisi-balioak</h2>
         <form class="form-grid">
-            <label>Pazientea</label>
+            <label>Partehartzailea</label>
             <select id="patientSelect">
-                <option value="">-- Hautatu pazientea --</option>
+                <option value="">-- Hautatu partehartzailea --</option>
             </select>
 
-            <label>PLAKA INDIZEA</label>
+            <label>PLAKA-INDIZEA</label>
             <input type="number" step="0.1" min="0" required id="indice_placa" name="indice_placa">
 
             <label>INFLAMAZIOAREN PRESENTZIA: IL-6 maila (pg/mL)</label>
-            <input type="number" min="0" max="100" required id="il6" name="il6">
+            <input type="number" min="0" max="50" required id="il6" name="il6">
+
+            <label>AHOKO HORTZEN KONTAKETA</label>
+            <input type="number" min="0" max="10" required id="dientes" name="dientes">
+
+            <label>AHOKO pHaren NEURKETA</label>
+            <input type="number" step="0.1" min="0" max="14" required id="ph" name="ph">
 
             <label>Oharrak</label>
             <textarea id="observaciones"></textarea>
@@ -295,7 +330,7 @@
     </section>
         
 
-    <!-- RESULTADOS -->
+    <!-- (ANTIGUO) VISTA PACIENTE: RESULTADOS -->
     <section id="resultados" class="card oculto animate">
         <h2>Emaitzak eta Gomendioak</h2>
 
@@ -314,7 +349,7 @@
             <div class="resultado-item">
                 <h3>Gomendio Pertsonalizatua</h3>
                 <p class="indicacion">
-                    Adibidez: IL-6 mailak jarraipen gehigarria iradokitzen du.
+                    Adibidez: IL-6 mailak (pg/mL) jarraipen gehigarria iradokitzen du.
 
                 </p>
             </div>

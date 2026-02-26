@@ -17,15 +17,12 @@ def calcular_score(datos):
 
     if cepillado == "bitan":
         score += 0
-        factores.append("Hortzen garbiketa ona")
 
     elif cepillado == "behin":
         score += 0.5
-        factores.append("Hortzen garbiketa hobetzekoa")
     
     elif cepillado == "gutxi":
         score += 1
-        factores.append("Hortzen garbiketa oso eskasa, hobetzekoa")
 
 # ---------- 2.Galdera ----------
     tiempo = datos.formulario1.tiempo
@@ -35,7 +32,6 @@ def calcular_score(datos):
 
     elif tiempo == "gutxi":
         score += 1
-        factores.append("Denbora gehiago behar da hortzak garbitzen")
     
 # ---------- 3.Galdera ----------
     eskuila = datos.formulario1.eskuila
@@ -45,7 +41,6 @@ def calcular_score(datos):
 
     elif eskuila == "eskukoa":
         score += 0.5
-        factores.append("Hobeto litzateke eskuil elektrikoa erabiltzea")
     
 # ---------- 4.Galdera ----------
     osagarria = datos.formulario1.osagarria
@@ -55,7 +50,6 @@ def calcular_score(datos):
 
     elif osagarria == "ez":
         score += 1
-        factores.append("Hortz-tarteak garbitzeko metodo osagarriren bat (hortz-haria, eskuila interproximalak, silikonazko txotx edo “pick”-ak, irrigadorea, superfloss© moduko haria…) erabiltzea gomendatzen da")
     
 # ---------- 5.Galdera ----------
     klinika = datos.formulario1.klinika
@@ -71,7 +65,6 @@ def calcular_score(datos):
     
     elif klinika == "bosturte":
         score += 1.5
-        factores.append("Klinikara, gutzienez, urtean behin joatea gomendatzen da")
 
 
     # ---------- FORMULARIO 2 (cuando lo tengas) ----------
@@ -83,7 +76,7 @@ def calcular_score(datos):
         score += 0
 
     elif kardiopatia == "bai":
-        score += 10
+        score += 5
  # ---------- 2.Galdera ----------
     zianosia = datos.formulario2.zianosia
 
@@ -122,6 +115,8 @@ def calcular_score(datos):
 
     elif endokarditis == "bai":
         score += 5
+        factores.append("Endokarditis bakterianoa detektatu da: Eman ezagutzera zure egoera aho-hortz profesionalari")
+
 
  # ---------- 6.Galdera ----------
     diabetes = datos.formulario2.diabetes
@@ -130,8 +125,10 @@ def calcular_score(datos):
         score += 0
     elif diabetes == "bat":
         score += 3
+        factores.append("Diabetesa detektatu da")
     elif diabetes == "bi":
         score += 5
+        factores.append("Diabetesa detektatu da")
 
  # ---------- 7.Galdera ----------
     erretzailea = datos.formulario2.erretzailea
@@ -141,6 +138,8 @@ def calcular_score(datos):
 
     elif erretzailea == "bai":
         score += 5
+        factores.append("Erretzailea")
+
 
 # ---------- 8.Galdera ----------
     menpekotasuna = datos.formulario2.menpekotasuna
@@ -158,26 +157,38 @@ def calcular_score(datos):
     # ---------- IL-6 ----------
     if datos.il6_value <= 5:
         score += 0
-        factores.append("Inflamazioaren presentzia baxua")
     elif 5 < datos.il6_value <= 10:
         score += 10
-        factores.append("Inflamazioaren presentzia ertaina")
     elif datos.il6_value > 10:
         score += 20
-        factores.append("Inflamazioaren presentzia altua")
 
     # ---------- Plaka Indizea ----------
     if datos.dental_plaque <= 1:
         score += 0
-        factores.append("Higiene maila: Ona")
     elif 1 < datos.dental_plaque <= 2:
         score += 5
-        factores.append("Higiene maila: Bitartekoa")
     elif 2 < datos.dental_plaque <= 3:
-        score += 10
-        factores.append("Odontologoa bisitatu, aho-hortz higiene inguruko neurri egokiak aktibatzeko")
+        score += 8
     elif datos.dental_plaque > 3:
-        score += 15
-        factores.append("Odontologoa bisitatu, aho-hortz higiene inguruko neurri egokiak aktibatzeko")
+        score += 10
+
+    # ---------- HORTZEN KONTAKETA ----------
+    if datos.tooth_count == 0:
+        score += 0
+    elif datos.tooth_count == 1:
+        score += 1
+    elif datos.tooth_count == 2:
+        score += 3
+    elif datos.tooth_count >= 3:
+        score += 5
+
+    # ---------- PHAREN NEURKETA ----------
+    if datos.ph_value <= 6.5:
+        score += 5
+    elif 6.5 <= datos.ph_value <= 7.1:
+        score += 0
+    elif datos.ph_value > 7.1:
+        score += 5
+
 
     return score, factores

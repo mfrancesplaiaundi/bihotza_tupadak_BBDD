@@ -23,16 +23,14 @@ class DatosFormulario(BaseModel):
     formulario1: Formulario1
     formulario2: Formulario2
 
-class DatosClinicos(BaseModel):
-    il6: float
-    indice_placa: float
-    observaciones: str | None = None
-
 class DatosEntrada(BaseModel):
     formulario1: Formulario1
     formulario2: Formulario2
     il6_value: float
     dental_plaque: float
+    tooth_count: int
+    ph_value: float
+    
 
 class LoginPaciente(BaseModel):
     patient_code: str
@@ -46,4 +44,6 @@ class BiomarkerCreate(BaseModel):
     patient_id: str
     il6_value: float
     dental_plaque: float
+    ph_value: float
+    tooth_count: int
     observations: str | None = None

@@ -32,6 +32,8 @@ class Biomarker(Base):
     patient_id = Column(String, ForeignKey("patients.id"))
     il6_value = Column(Float)
     dental_plaque = Column(Float)
+    tooth_count = Column(Integer)
+    ph_value = Column(Float)
     observations = Column(String)
     measured_at = Column(DateTime, default=datetime.utcnow)
 

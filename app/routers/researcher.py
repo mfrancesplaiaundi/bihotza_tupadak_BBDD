@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 
 from app.auth import require_role
 from app.auth import create_access_token
-from app.schemas import DatosClinicos, BiomarkerCreate
+from app.schemas import BiomarkerCreate
 from app.models import Patient, Biomarker, Questionnaire
 from app.database import get_db
 
@@ -89,6 +89,8 @@ def listar_pacientes_con_datos(
             "created_at": p.created_at,
             "il6_value": clinico.il6_value if clinico else None,
             "dental_plaque": clinico.dental_plaque if clinico else None,
+            "tooth_count": clinico.tooth_count if clinico else None,
+            "ph_value": clinico.ph_value if clinico else None,
             "observations": clinico.observations if clinico else None,
             "measured_at": clinico.measured_at if clinico else None,
             "has_questionnaire": q is not None,
@@ -123,6 +125,8 @@ def guardar_biomarcador(
         patient_id=data.patient_id,
         il6_value=data.il6_value,
         dental_plaque=data.dental_plaque,
+        tooth_count=data.tooth_count,
+        ph_value=data.ph_value,
         observations=data.observations
     )
 

@@ -45,6 +45,8 @@ def ver_biomarcadores_paciente(
     return {
         "il6_value": biomarker.il6_value,
         "dental_plaque": biomarker.dental_plaque,
+        "tooth_count": biomarker.tooth_count,
+        "ph_value": biomarker.ph_value,
         "measured_at": biomarker.measured_at
     }
 
@@ -75,14 +77,16 @@ def resultados_paciente(
         formulario1=q.answers["formulario1"],
         formulario2=q.answers["formulario2"],
         il6_value=b.il6_value,
-        dental_plaque=b.dental_plaque
+        dental_plaque=b.dental_plaque,
+        tooth_count=b.tooth_count,
+        ph_value=b.ph_value        
     )
 
     score, factores = calcular_score(datos)
 
-    if score < 25:
+    if score <= 25:
         nivel = "Berdea"
-    elif 25 < score < 50:
+    elif 25 < score <= 50:
         nivel = "Horia"
     elif 50 < score < 75:
         nivel = "Laranja"
@@ -102,11 +106,11 @@ def resultados_paciente(
         "score": score,
         "nivel": nivel,
         "factores": factores,
-        "recomendaciones_generales": recomendaciones_generales(nivel),
+        "mensaje_general": mensaje_general(nivel),
         "recomendacion_personalizada": ia
     }
 
-def recomendaciones_generales(nivel):
+def mensaje_general(nivel):
     if nivel == "Berdea":
         return [
             "🟢 Eutsi horri! segi zure ahoko eta bihotzeko osasuna zaintzen!"
@@ -124,12 +128,6 @@ def recomendaciones_generales(nivel):
             "🔴 Hau da zure unea: hartu norabidea berriro. Zure ahoko eta bihotzeko osasuna lehentasun bihurtzen duzunean, bidea argituko zaizu berriz."
         ]
 
-
-def recomendacion_personalizada(factores):
-    if "Inflamazioaren presentzia altua" in factores:
-        return "Inflamazio markatzaileak jarraipen berezia behar du."
-    return "Ez da arrisku faktore nabarmenik hauteman."
-
 def recomendacion_personalizada_ia(
     score: float,
     nivel_code: str,
@@ -139,12 +137,7 @@ def recomendacion_personalizada_ia(
     placa: float
 ):
     #fallback por si no hay IA aún o falla
-    fallback = {
-        "texto": recomendacion_personalizada(factores),
-        "links": [],
-        "sources": [],
-        "modo": "fallback"
-    }
+
 
     # Aquí, cuando implementes RAG, llamas a tu función:
     # advice = generar_consejos_rag(...)
@@ -157,17 +150,17 @@ def recomendacion_personalizada_ia(
 
     f1 = answers.get("formulario1", {})
     if f1.get("cepillado") in ("behin", "gutxi"):
-        texto.append("Intenta cepillarte al menos 2 veces al día (mañana y noche).\n")
+        texto.append("Saia zaitez egunean gutxienez 2 aldiz eskuilatzen (goizez eta gauez).\n")
     
 
     if f1.get("osagarria") == "ez":
-        texto.append("Añade higiene interdental (hilo/cepillos interproximales) 1 vez al día.\n")
+        texto.append("Gehitu hortzarteko higienea (hari/eskuila interproximalak) egunean behin \n")
     
 
     if placa >= 2:
-        texto.append("Con índice de placa elevado, refuerza rutina y considera una limpieza profesional.\n")
+        texto.append("Plaka-indizea altuarekin, errutina indartu behar duzu eta garbiketa profesionaltzat hartu behar duzu.\n")
     if il6 > 10:
-        texto.append("Si hay inflamación alta, sigue las indicaciones del profesional y mantén hábitos constantes.\n")
+        texto.append("Inflamazio altua duzu, jarraitu profesionalaren jarraibideei eta mantendu ohiturak etengabe\n")
 
     perfil = {
         "score": score,
@@ -181,9 +174,6 @@ def recomendacion_personalizada_ia(
 
     links = recomendar_links(perfil)
     sources = recomendar_sources(perfil)
-
-    if not texto:
-        return fallback
 
     return {
         "texto": " ".join(texto),
