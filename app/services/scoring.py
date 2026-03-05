@@ -185,10 +185,9 @@ def calcular_score(datos):
     # ---------- PHAREN NEURKETA ----------
     if datos.ph_value <= 6.5:
         score += 5
-    elif 6.5 <= datos.ph_value <= 7.1:
+        factores.append("pH azidoa")
+    elif datos.ph_value > 6.5:
         score += 0
-    elif datos.ph_value > 7.1:
-        score += 5
 
 
     return score, factores

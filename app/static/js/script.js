@@ -336,6 +336,11 @@ console.log("Sources ->", data.recomendacion_personalizada?.sources);
       li.textContent = f;
       listaFactores.appendChild(li);
     }
+    if (f.includes("pH azidoa")) {
+      const li = document.createElement("li");
+      li.textContent = "Listu-pH baxu batek hainbat kausa izan ditzake (medikazioa, dieta, desordena gastrikoak, etab.) eta hortz-higadura, gaixotasun periodontala edo ahoko osasunaren beste desoreka batzuk eragin ditzake; kontsulta ezazu zure odontologoarekin jatorria identifikatzeko eta ahoko osasuna babesteko eta dagokion espezialistarekin bidera dezan";
+      listaFactores.appendChild(li);
+    }
     else if (f.includes("Erretzailea")){
       const li = document.createElement("li");
       const a = document.createElement("a");
