@@ -10,9 +10,10 @@ from sqlalchemy.orm import Session
 
 from app.auth import require_role
 from app.auth import create_access_token
-from app.schemas import BiomarkerCreate
+from app.schemas import BiomarkerCreate, DatosEntrada
 from app.models import Patient, Biomarker, Questionnaire
 from app.database import get_db
+from app.services.scoring_parcial import calcular_scores_parciales
 
 
 router = APIRouter(prefix="/api/researcher", tags=["researcher"])
@@ -156,3 +157,141 @@ def reset_pin_paciente(
         "new_pin": nuevo_pin,
         "message": "PIN berria sortu da. Erabiltzaileari eman."
     }
+
+@router.get("/estadisticas")
+def estadisticas_pacientes(
+    db: Session = Depends(get_db),
+    _=Depends(require_role("researcher"))
+):
+    pacientes = db.query(Patient).all()
+    il6_m0k0 = []
+    il6_m0k1 = []
+    il6_m1k0 = []
+    il6_m1k1 = []
+    plaka_m0k0 = []
+    plaka_m0k1 = []
+    plaka_m1k0 = []
+    plaka_m1k1 = []
+    hig_m0k0 = []
+    hig_m0k1 = []
+    hig_m1k0 = []
+    hig_m1k1 = []
+    kar_m0k0 = []
+    kar_m0k1 = []
+    kar_m1k0 = []
+    kar_m1k1 = []
+    men_m1k0 = []
+    men_m1k1 = []
+    resultado = []
+
+
+    for p in pacientes:
+        b = (
+            db.query(Biomarker)
+            .filter(Biomarker.patient_id == p.id)
+            .order_by(Biomarker.measured_at.desc())
+            .first()
+        )
+
+        q = (
+            db.query(Questionnaire)
+            .filter(Questionnaire.patient_id == p.id)
+            .order_by(Questionnaire.created_at.desc())
+            .first()
+        )
+
+        if not q or not b:
+            raise HTTPException(400, "Datu guztiak ez daude eskuragarri")
+        
+        # Mirar en qué grupo meter cada paciente, para eso mirar respuestas de los formularios
+
+        datos = DatosEntrada(
+            formulario1=q.answers["formulario1"],
+            formulario2=q.answers["formulario2"],
+            il6_value=b.il6_value,
+            dental_plaque=b.dental_plaque,
+            tooth_count=b.tooth_count,
+            ph_value=b.ph_value        
+        )
+
+        score_f1,  score_f2, score_f2_q8 = calcular_scores_parciales(datos)
+
+        f2 = q.answers.get("formulario2", {})
+
+        if f2.get("kardiopatia") == "bai":
+            if f2.get("menpekotasuna") in ("bat", "bi", "hiru"):
+                il6_m1k1.append(b.il6_value)
+                plaka_m1k1.append(b.dental_plaque)
+                hig_m1k1.append(float(score_f1))
+                kar_m1k1.append(float(score_f2))
+                men_m1k1.append(float(score_f2_q8))        
+            else:
+                il6_m0k1.append(b.il6_value)
+                plaka_m0k1.append(b.dental_plaque)
+                hig_m0k1.append(float(score_f1))
+                kar_m0k1.append(float(score_f2))
+        elif f2.get("kardiopatia") == "ez":
+            if f2.get("menpekotasuna") in ("bat", "bi", "hiru"):
+                il6_m1k0.append(b.il6_value)
+                plaka_m1k0.append(b.dental_plaque)
+                hig_m1k0.append(float(score_f1))
+                kar_m1k0.append(float(score_f2))
+                men_m1k0.append(float(score_f2_q8))        
+            else:
+                il6_m0k0.append(b.il6_value)
+                plaka_m0k0.append(b.dental_plaque)
+                hig_m0k0.append(float(score_f1))
+                kar_m0k0.append(float(score_f2))
+
+        
+        # Medias de los arrays
+        
+    il6_m1k1_media= sum(il6_m1k1)/len(il6_m1k1)        
+    plaka_m1k1_media= sum(plaka_m1k1)/len(plaka_m1k1)        
+    hig_m1k1_media= sum(hig_m1k1)/len(hig_m1k1)        
+    kar_m1k1_media= sum(kar_m1k1)/len(kar_m1k1)        
+    men_m1k1_media= sum(men_m1k1)/len(men_m1k1)
+
+    il6_m0k1_media= sum(il6_m0k1)/len(il6_m0k1)        
+    plaka_m0k1_media= sum(plaka_m0k1)/len(plaka_m0k1)        
+    hig_m0k1_media= sum(hig_m0k1)/len(hig_m0k1)        
+    kar_m0k1_media= sum(kar_m0k1)/len(kar_m0k1)        
+
+    il6_m1k0_media= sum(il6_m1k0)/len(il6_m1k0)        
+    plaka_m1k0_media= sum(plaka_m1k0)/len(plaka_m1k0)        
+    hig_m1k0_media= sum(hig_m1k0)/len(hig_m1k0)        
+    kar_m1k0_media= sum(kar_m1k0)/len(kar_m1k0)        
+    men_m1k0_media= sum(men_m1k0)/len(men_m1k0)
+
+    il6_m0k0_media= sum(il6_m0k0)/len(il6_m0k0)        
+    plaka_m0k0_media= sum(plaka_m0k0)/len(plaka_m0k0)        
+    hig_m0k0_media= sum(hig_m0k0)/len(hig_m0k0)        
+    kar_m0k0_media= sum(kar_m0k0)/len(kar_m0k0)  
+    
+    # Habría que devolver directamente los valores de las medias
+
+    return {"il6_m1k1_media": il6_m1k1_media,
+        "plaka_m1k1_media": plaka_m1k1_media,
+        "hig_m1k1_media": hig_m1k1_media,
+        "kar_m1k1_media": kar_m1k1_media,
+        "men_m1k1_media": men_m1k1_media,
+
+        "il6_m0k1_media": il6_m0k1_media,
+        "plaka_m0k1_media": plaka_m0k1_media,
+        "hig_m0k1_media": hig_m0k1_media,
+        "kar_m0k1_media": kar_m0k1_media,
+
+        "il6_m1k0_media": il6_m1k0_media,
+        "plaka_m1k0_media": plaka_m1k0_media,
+        "hig_m1k0_media": hig_m1k0_media,
+        "kar_m1k0_media": kar_m1k0_media,
+        "men_m1k0_media": men_m1k0_media,
+        
+        "il6_m0k0_media": il6_m0k0_media,
+        "plaka_m0k0_media": plaka_m0k0_media,
+        "hig_m0k0_media": hig_m0k0_media,
+        "kar_m0k0_media": kar_m0k0_media,
+
+    }
+        
+    

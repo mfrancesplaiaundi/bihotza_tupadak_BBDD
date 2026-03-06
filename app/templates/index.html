@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>BIHOTZA TAUPAKA, IRRIBARREA AHOAN</title>
     <link rel="stylesheet" href="../static/css/styles.css">
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <script src="../static/js/script.js" defer></script>
 </head>
 
@@ -205,7 +206,7 @@
                     <option value="ez">Ez</option>
                     <option value="bai">Bai</option>
                 </select><br>
-                <label class="select-md-label">5. Endokarditis bakterianoa” delako gaixotasuna izan duzu inoiz?</label>
+                <label class="select-md-label">5. Endokarditis bakterianoa delako gaixotasuna izan duzu inoiz?</label>
                 <select class="select-md" id="endokarditis" name="endokarditis" required>
                     <option value="" disabled selected>Aukeratu...</option>
                     <option value="ez">Ez</option>
@@ -253,6 +254,11 @@
         <button class=btn-clinica-primary onclick="mostrarDatosClinicos()">
             Datu klinikoak sartu
         </button>
+
+        <button class=btn-clinica-primary onclick="mostrar('estadisticas')">
+           Estatistikak ikusi
+        </button>
+
     </section>
 
 
@@ -328,7 +334,30 @@
 
         </form>
     </section>
-        
+
+    <!-- VISTA INVESTIGADOR: ESTADISTICAS (POR AHORA MIRAMOS SOLO LAS MEDIAS POR GRUPOS) -->    
+    <section id="estadisticas" class="card oculto animate">
+
+        <h3>Estatistikak</h3>
+
+        <button class=btn-clinica-primary type="button" onclick="cargarEstadisticas()">Estatistikak kargatu</button>
+
+        <table border="1">
+            <thead>
+            <tr>
+                <th>Taldea</th>
+                <th>Plaka-indizearen batezbestekoa</th>
+                <th>IL-6 (pg/mL) batezbestekoa</th>
+                <th>Aho-higiene mailaren batezbestekoa </th>
+                <th>Bihotz-osasun mailaren batezbestekoa</th>
+                <th>Menpekotasun mailaren batezbestekoa</th>
+            </tr>
+            </thead>
+            <tbody id="tablaEstadisticas"></tbody>
+        </table>
+
+        <button class=btn-clinica-primary onclick="mostrar('investigador')">Atzera</button>
+    </section>
 
     <!-- (ANTIGUO) VISTA PACIENTE: RESULTADOS -->
     <section id="resultados" class="card oculto animate">

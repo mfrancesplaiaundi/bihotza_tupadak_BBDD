@@ -1,4 +1,3 @@
-# app/schemas.py
 from pydantic import BaseModel
 
 class Formulario1(BaseModel):

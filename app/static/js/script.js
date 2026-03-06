@@ -53,7 +53,7 @@ function logout() {
 
 function mostrar(id) {
 
-    const secciones = ["login","resultadosPaciente","menuPaciente","analiticasPaciente", "form1", "form2", "formAnalitica", "resultados", "registrar", "investigador","listaPacientes"];
+    const secciones = ["login","resultadosPaciente","menuPaciente","analiticasPaciente", "form1", "form2", "formAnalitica", "resultados", "registrar", "investigador","listaPacientes","estadisticas"];
 
     secciones.forEach(sec => {
         const elemento = document.getElementById(sec);
@@ -311,11 +311,6 @@ async function mostrarResultadosPaciente() {
   }
 
   const data = await res.json();
-  console.log("RESULTADOS /api/patient/resultados ->", data);
-console.log("IA ->", data.recomendacion_personalizada);
-console.log("Links ->", data.recomendacion_personalizada?.links);
-console.log("Sources ->", data.recomendacion_personalizada?.sources);
-
 
   // Mostrar sección
   mostrar("resultadosPaciente");
@@ -453,4 +448,76 @@ async function resetPinPaciente(patientId) {
     "PIN berria: " + data.new_pin + "\n\n" +
     "⚠️ PIN hau pazienteari eman eta ez da berriro erakutsiko."
   );
+}
+
+async function cargarEstadisticas() {
+  const token = sessionStorage.getItem("token");
+
+  const res = await fetch("/api/researcher/estadisticas", {
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  });
+
+  if (!res.ok) {
+    alert("Errorea estatistikak kargatzean");
+    return;
+  }
+
+  const valores = await res.json();
+  const tbody = document.getElementById("tablaEstadisticas");
+  tbody.innerHTML = "";   
+  
+  const fila = document.createElement("tr");
+
+  fila.innerHTML = `
+      <td>M1K1</td>
+      <td>${valores.plaka_m1k1_media ?? "-"}</td>
+      <td>${valores.il6_m1k1_media ?? "-"}</td>
+      <td>${valores.hig_m1k1_media ?? "-"}</td>
+      <td>${valores.kar_m1k1_media ?? "-"}</td>
+      <td>${valores.men_m1k1_media ?? "-"}</td>
+    `;
+
+  tbody.appendChild(fila);
+
+  const fila2 = document.createElement("tr");
+
+  fila2.innerHTML = `
+      <td>M0K1</td>
+      <td>${valores.plaka_m0k1_media ?? "-"}</td>
+      <td>${valores.il6_m0k1_media ?? "-"}</td>
+      <td>${valores.hig_m0k1_media ?? "-"}</td>
+      <td>${valores.kar_m0k1_media ?? "-"}</td>
+      <td>-</td>
+    `;
+
+  tbody.appendChild(fila2);
+
+  const fila3 = document.createElement("tr");
+
+  fila3.innerHTML = `
+      <td>M1K0</td>
+      <td>${valores.plaka_m1k0_media ?? "-"}</td>
+      <td>${valores.il6_m1k0_media ?? "-"}</td>
+      <td>${valores.hig_m1k0_media ?? "-"}</td>
+      <td>${valores.kar_m1k0_media ?? "-"}</td>
+      <td>${valores.men_m1k0_media ?? "-"}</td>
+    `;
+
+  tbody.appendChild(fila3);
+
+  const fila4 = document.createElement("tr");
+
+  fila4.innerHTML = `
+      <td>M0K0</td>
+      <td>${valores.plaka_m0k0_media ?? "-"}</td>
+      <td>${valores.il6_m0k0_media ?? "-"}</td>
+      <td>${valores.hig_m0k0_media ?? "-"}</td>
+      <td>${valores.kar_m0k0_media ?? "-"}</td>
+      <td>-</td>
+    `;
+
+  tbody.appendChild(fila4);
+  
 }
