@@ -99,7 +99,9 @@ def resultados_paciente(
         factores=factores,
         answers=q.answers,            # contiene formulario1 y 2
         il6=b.il6_value,
-        placa=b.dental_plaque
+        placa=b.dental_plaque,
+        dientes=b.tooth_count,
+        ph=b.ph_value
     )
 
     return {
@@ -134,7 +136,9 @@ def recomendacion_personalizada_ia(
     factores: list[str],
     answers: dict,
     il6: float,
-    placa: float
+    placa: float,
+    dientes: float,
+    ph: float
 ):
     #fallback por si no hay IA aún o falla
 
@@ -170,6 +174,8 @@ def recomendacion_personalizada_ia(
         "formulario2": answers.get("formulario2", {}),
         "il6": il6,
         "placa": placa,
+        "dientes": dientes,
+        "ph": ph
     }
 
     links = recomendar_links(perfil)

@@ -8,6 +8,10 @@ def _tags_desde_formularios(perfil: dict) -> set[str]:
 
     score = float(perfil.get("score", 0) or 0)
 
+    dientes = float(perfil.get("dientes", 0) or 0)
+
+    ph = float(perfil.get("ph", 0) or 0)
+
     # --- Formulario 1 (hábitos) ---
     cepillado = f1.get("cepillado")
     if cepillado in ("behin", "gutxi"):
@@ -49,10 +53,18 @@ def _tags_desde_formularios(perfil: dict) -> set[str]:
     if score >= 75:
         tags.update(["tratamiento", "profundizacion"])
 
+    # --- Dientes ---
+    if dientes != 0:
+        tags.update(["perdida dental", "periodontitis"])
+
+    # --- pH ---
+    if ph <= 6.5:
+        tags.update(["ph", "saliva", "salud_oral"])
+
     return tags
 
 
-def recomendar_links(perfil: dict, max_links: int = 4, lang: str = "es") -> list[dict]:
+def recomendar_links(perfil: dict, max_links: int = 8, lang: str = "es") -> list[dict]:
     tags = _tags_desde_formularios(perfil)
 
     # 1) candidatos por idioma y tags
@@ -92,7 +104,7 @@ def recomendar_links(perfil: dict, max_links: int = 4, lang: str = "es") -> list
     return result
 
 
-def recomendar_sources(perfil: dict, max_sources: int = 3, lang: str = "es") -> list[dict]:
+def recomendar_sources(perfil: dict, max_sources: int = 4, lang: str = "es") -> list[dict]:
  
     tags = _tags_desde_formularios(perfil)
 

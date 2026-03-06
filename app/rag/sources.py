@@ -183,6 +183,97 @@ SOURCES = [
         "type": "web",
         "tags": ["cepillado", "cepillo", "habitos"]
     },
+# ---Dientes ---
+    {
+        "id": "tooth_loss_oral_health_quality_of_life",
+        "title": "Tooth loss and oral health-related quality of life: a systematic review and meta-analysis",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/21050499/",
+        "lang": "en",
+        "type": "web",
+        "tags": ["perdida dental", "calidad de vida", "salud oral"]
+    },
+    {
+        "id": "periodontal_disease_tooth_loss_systemic_conditions",
+        "title": "Periodontal Disease, Tooth Loss, and Systemic Conditions: An Exploratory Study",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/37833208/",
+        "lang": "en",
+        "type": "web",
+        "tags": ["periodontitis", "perdida dental", "salud sistemica"]
+    },
+    {
+        "id": "predictors_tooth_loss_periodontitis",
+        "title": "Predictors for tooth loss in periodontitis patients: Systematic review and meta-analysis",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/31025366/",
+        "lang": "en",
+        "type": "web",
+        "tags": ["periodontitis", "perdida dental", "factores de riesgo"]
+    },
+    {
+        "id": "tooth_loss_systemic_inflammation_periodontal_pathogens_cvd",
+        "title": "Associations among tooth loss, systemic inflammation and antibody titers to periodontal pathogens in Japanese patients with cardiovascular disease",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/29139559/",
+        "lang": "en",
+        "type": "web",
+        "tags": ["perdida dental", "inflamacion sistemica", "corazon"]
+    },
+    {
+        "id": "missing_teeth_mortality_hospitalization",
+        "title": "Missing teeth, mortality, and hospitalization: A population-based cohort analysis from the Canadian Health Measures Survey and linked databases",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41100217/",
+        "lang": "en",
+        "type": "web",
+        "tags": ["perdida dental", "mortalidad", "hospitalizacion"]
+    },
+    {
+        "id": "number_of_teeth_periodontal_pockets",
+        "title": "Relationship between number of teeth and periodontal pockets",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/1864066/",
+        "lang": "en",
+        "type": "web",
+        "tags": ["perdida dental", "bolsas periodontales", "periodoncia"]
+    },
+
+    # --- PH ---
+    {
+        "id": "saliva_ph_flow_rate_periodontal_cardiovascular",
+        "title": "Saliva pH and Flow Rate in Patients with Periodontal Disease and Associated Cardiovascular Disease",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/34305133/",
+        "lang": "en",
+        "type": "web",
+        "tags": ["saliva", "ph", "flujo salival", "periodontitis", "cardiovascular"]
+    },
+    {
+        "id": "salivary_flow_rate_ph_oral_pathologies",
+        "title": "Salivary flow rate and pH in patients with oral pathologies",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/28165549/",
+        "lang": "en",
+        "type": "web",
+        "tags": ["saliva", "ph", "flujo salival", "patologias orales"]
+    },
+    {
+        "id": "importance_of_saliva_for_oral_health",
+        "title": "The importance of saliva for oral health",
+        "url": "https://revistamedical.com/index.php/whj/article/view/40/35",
+        "lang": "es",
+        "type": "web",
+        "tags": ["saliva", "salud_oral", "ph", "enfermedades"]
+    },
+    {
+        "id": "oral_mucosal_ph_healthy_saliva_secretors",
+        "title": "The distribution of oral mucosal pH values in healthy saliva secretors",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/16792729/",
+        "lang": "en",
+        "type": "web",
+        "tags": ["mucosa oral", "ph", "saliva", "valores normales"]
+    },
+    {
+        "id": "factors_affecting_intra_oral_ph_review",
+        "title": "Factors affecting intra-oral pH - a review",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/27573678/",
+        "lang": "en",
+        "type": "web",
+        "tags": ["ph", "saliva", "revision", "factores"]
+    },
 
     # --- YouTube (vídeos) ---
     {"id": "yt_cepillado_1", "title": "Video higiene/cepillado 1", "url": "https://youtu.be/4FZVxrOi19U", "lang": "es", "type": "video", "tags": ["general","cepillado", "habitos", "videos"]},
