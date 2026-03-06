@@ -23,11 +23,11 @@ def _tags_desde_formularios(perfil: dict) -> set[str]:
 
     eskuila = f1.get("eskuila")
     if eskuila == "eskukoa":
-        tags.update(["cepillo", "cepillado"])
+        tags.update(["electrico", "cepillado"])
 
     osagarria = f1.get("osagarria")
     if osagarria == "ez":
-        tags.update(["interdental", "hilo", "habitos"])
+        tags.update(["accesorio", "interdental", "hilo", "habitos"])
 
     klinika = f1.get("klinika")
     if klinika in ("bosturte", "tartean"):
