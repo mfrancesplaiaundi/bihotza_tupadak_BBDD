@@ -362,7 +362,45 @@ async function mostrarResultadosPaciente() {
   const ia=data.recomendacion_personalizada;
 
   const iaTexto=document.getElementById("iaTexto");
-  iaTexto.innerText=ia?.texto ? ia.texto : "-";
+  iaTexto.innerText=ia?.recommendations ? ia.recommendations : "-";
+
+  const recomendacionesList = document.getElementById("iaTexto");
+  recomendacionesList.innerHTML = '';
+
+  console.log(ia.recommendations);
+
+  ia.recommendations.forEach(recommendation => {
+
+    const li = document.createElement("li");
+
+    const texto = document.createElement("p");
+    texto.innerHTML = `<strong>Gomendioa:</strong> ${recommendation.text}`;
+
+    const motivo = document.createElement("p");
+    motivo.innerHTML = `<strong>Arrazoia:</strong> ${recommendation.reason}`;
+
+    li.appendChild(texto);
+    li.appendChild(motivo);
+
+   
+    if (recommendation.sources && recommendation.sources.length > 0) {
+        const sourcesList = document.createElement("ul");
+        recommendation.sources.forEach(source => {
+            const sourceItem = document.createElement("li");
+            const sourceLink = document.createElement("a");
+            sourceLink.href = source.url;
+            sourceLink.innerText = source.title;
+            sourceItem.appendChild(sourceLink);
+            sourcesList.appendChild(sourceItem);
+          });
+        li.appendChild(sourcesList);
+    }
+
+        // Añadir la recomendación completa a la lista
+    recomendacionesList.appendChild(li);
+  });  
+
+
 
   const iaLinks = document.getElementById("iaLinks");
   iaLinks.innerHTML = "";

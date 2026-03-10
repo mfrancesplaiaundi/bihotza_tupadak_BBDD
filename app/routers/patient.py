@@ -137,7 +137,7 @@ def recomendacion_personalizada_ia(
     answers: dict,
     il6: float,
     placa: float,
-    dientes: float,
+    dientes: int,
     ph: float
 ):
     #fallback por si no hay IA aún o falla
@@ -148,23 +148,12 @@ def recomendacion_personalizada_ia(
     # return advice
 
     # (provisional)
+    recomendaciones = []
     texto = []
     links = []
     sources = []
 
     f1 = answers.get("formulario1", {})
-    if f1.get("cepillado") in ("behin", "gutxi"):
-        texto.append("Saia zaitez egunean gutxienez 2 aldiz eskuilatzen (goizez eta gauez).\n")
-    
-
-    if f1.get("osagarria") == "ez":
-        texto.append("Gehitu hortzarteko higienea (hari/eskuila interproximalak) egunean behin \n")
-    
-
-    if placa >= 2:
-        texto.append("Plaka-indizea altuarekin, errutina indartu behar duzu eta garbiketa profesionaltzat hartu behar duzu.\n")
-    if il6 > 10:
-        texto.append("Inflamazio altua duzu, jarraitu profesionalaren jarraibideei eta mantendu ohiturak etengabe\n")
 
     perfil = {
         "score": score,
@@ -178,12 +167,55 @@ def recomendacion_personalizada_ia(
         "ph": ph
     }
 
+    if f1.get("cepillado") in ("behin", "gutxi"):
+        recomendaciones.append({
+            "priority": "alta",
+            "text": "Saia zaitez egunean gutxienez 2 aldiz eskuilatzen (goizez eta gauez).",
+            "reason": "Eskuilatze maiztasun txikiak aho-higiene txarragoarekin lotura izan dezake.",
+            "tag": "cepillado"
+        })
+
+    if f1.get("osagarria") == "ez":
+        recomendaciones.append({
+            "priority": "alta",
+            "text": "Gehitu hortzarteko higienea (hari edo eskuila interproximalak) egunean behin.",
+            "reason": "Hortzen arteko higieneak plaka pilaketa murrizten lagun dezake.",
+            "tag": "higiene_interdental"
+        })
+
+    if placa >= 2:
+        recomendaciones.append({
+            "priority": "alta",
+            "text": "Plaka-indize altua duzunez, komeni da aho-garbiketa ohiturak indartzea eta garbiketa profesionala baloratzea.",
+            "reason": "Plaka altuak hantura eta aho-arazoen arriskua handitu dezake.",
+            "tag": "placa"
+        })
+
+    if il6 > 10:
+        recomendaciones.append({
+            "priority": "alta",
+            "text": "Inflamazio-markatzaile altua dagoenez, jarraitu profesional sanitarioaren aholkuak eta mantendu zaintza-ohitura egonkorrak.",
+            "reason": "Inflamazio maila altuak arreta handiagoa eskatzen du.",
+            "tag": "inflamacion"
+        })
+
+    if ph < 6.5:
+        recomendaciones.append({
+            "priority": "media",
+            "text": "Saiatu hidratazio egokia mantentzen eta zure aho-ingurunearen oreka zaintzen.",
+            "reason": "pH baxuak aho-ingurunean desoreka adieraz dezake.",
+            "tag": "ph"
+        })
+
     links = recomendar_links(perfil)
     sources = recomendar_sources(perfil)
 
+    summary = "Zure datuen arabera, aho-osasunarekin lotutako gomendio pertsonalizatu batzuk prestatu dira."
+
     return {
-        "texto": " ".join(texto),
+        "summary": summary,
+        "recommendations": recomendaciones[:4],
         "links": links,
-        "sources": sources,      
+        "sources": sources,
         "modo": "heuristica"
     }
