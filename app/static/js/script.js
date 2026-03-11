@@ -374,7 +374,7 @@ async function mostrarResultadosPaciente() {
     const li = document.createElement("li");
 
     const texto = document.createElement("p");
-    texto.innerHTML = `<strong>Gomendioa:</strong> ${recommendation.text}`;
+    texto.innerHTML = `<strong>Gomendioa:</strong> ${recommendation.ai_text || recommendation.text}`;
 
     const motivo = document.createElement("p");
     motivo.innerHTML = `<strong>Arrazoia:</strong> ${recommendation.reason}`;
@@ -390,6 +390,7 @@ async function mostrarResultadosPaciente() {
             const sourceLink = document.createElement("a");
             sourceLink.href = source.url;
             sourceLink.innerText = source.title;
+            sourceLink.target="_blank";
             sourceItem.appendChild(sourceLink);
             sourcesList.appendChild(sourceItem);
           });

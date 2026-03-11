@@ -5,8 +5,8 @@ from app.models import Patient, Questionnaire, Biomarker
 from app.schemas import DatosFormulario, DatosEntrada
 from app.auth import require_role
 from app.services.scoring import calcular_score
-from app.rag.recommender import recomendar_links, recomendar_sources
-
+from app.rag.recommender import buscar_fuentes_por_tags, recomendar_links, recomendar_sources, tags_para_recomendacion
+from app.services.ia_recomendations import enriquecer_recomendacion_con_ia_cloud
 
 import hashlib
 
@@ -206,6 +206,20 @@ def recomendacion_personalizada_ia(
             "reason": "pH baxuak aho-ingurunean desoreka adieraz dezake.",
             "tag": "ph"
         })
+    
+    for rec in recomendaciones:
+        rec_tags = tags_para_recomendacion(rec)
+        rec["sources"] = buscar_fuentes_por_tags(
+            tags=rec_tags,
+            max_items=2,
+            lang="es"
+        )
+
+        try:
+            rec["ai_text"] = "[OLLAMA] " + enriquecer_recomendacion_con_ia_cloud(rec, perfil)
+        except Exception as e:
+            rec["ai_text"] = rec["text"]
+            rec["ai_error"] = str(e)
 
     links = recomendar_links(perfil)
     sources = recomendar_sources(perfil)

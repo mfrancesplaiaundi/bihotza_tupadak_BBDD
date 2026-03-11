@@ -129,3 +129,71 @@ def recomendar_sources(perfil: dict, max_sources: int = 4, lang: str = "es") -> 
             break
 
     return out
+
+def buscar_fuentes_por_tags(
+    tags: set[str],
+    max_items: int = 3,
+    lang: str = "es",
+    source_type: str | None = None
+) -> list[dict]:
+    candidatos = []
+
+    for s in SOURCES:
+        if s.get("lang") != lang:
+            continue
+
+        if source_type and s.get("type") != source_type:
+            continue
+
+        source_tags = set(s.get("tags", []))
+        coincidencias = tags.intersection(source_tags)
+
+        if coincidencias:
+            candidatos.append((len(coincidencias), s))
+
+    # ordenar por nº de coincidencias descendente
+    candidatos.sort(key=lambda x: x[0], reverse=True)
+
+    seen = set()
+    out = []
+
+    for _, s in candidatos:
+        url = s["url"]
+        if url in seen:
+            continue
+        seen.add(url)
+
+        out.append({
+            "id": s.get("id"),
+            "title": s.get("title", url),
+            "url": url,
+            "lang": s.get("lang"),
+            "type": s.get("type"),
+            "tags": s.get("tags", [])
+        })
+
+        if len(out) >= max_items:
+            break
+
+    return out
+
+def tags_para_recomendacion(rec: dict) -> set[str]:
+    tag = rec.get("tag")
+    tags = set()
+
+    if tag:
+        tags.add(tag)
+
+    mapa_relaciones = {
+        "ph": {"ph", "saliva", "salud_oral"},
+        "cepillado": {"cepillado", "habitos", "tecnica"},
+        "higiene_interdental": {"interdental", "hilo", "accesorio", "habitos"},
+        "placa": {"placa", "higiene", "encias", "prevencion"},
+        "inflamacion": {"inflamacion", "encias", "periodontitis", "salud_oral"},
+        "diabetes": {"diabetes", "salud_bucal", "encias"},
+        "tabaco": {"tabaco", "encias", "periodontitis"},
+        "corazon": {"corazon", "cardio", "prevencion"}
+    }
+
+    tags.update(mapa_relaciones.get(tag, set()))
+    return tags
