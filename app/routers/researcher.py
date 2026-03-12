@@ -1,9 +1,12 @@
 # app/routers/researcher.py
+import csv
+from io import StringIO
 import os
 import hmac
 import secrets, hashlib
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from fastapi import Depends
 from sqlalchemy.orm import Session
@@ -293,5 +296,84 @@ def estadisticas_pacientes(
         "kar_m0k0_media": kar_m0k0_media,
 
     }
+
+@router.get("/exportar")
+def estadisticas_pacientes(
+    db: Session = Depends(get_db),
+    _=Depends(require_role("researcher"))
+):
+    output = StringIO()
+    writer = csv.writer(output)
+
+    writer.writerow([
+        "patient_id",
+        "il6_value",
+        "dental_plaque",
+        "kardiopatia",
+        "menpekotasuna",
+        "score_f1_q1_q5",
+        "score_f2_q2_q5",
+        "score_f2_q8"
+    ])
+    
+    pacientes = db.query(Patient).all()
+
+
+    for p in pacientes:
+        b = (
+            db.query(Biomarker)
+            .filter(Biomarker.patient_id == p.id)
+            .order_by(Biomarker.measured_at.desc())
+            .first()
+        )
+
+        q = (
+            db.query(Questionnaire)
+            .filter(Questionnaire.patient_id == p.id)
+            .order_by(Questionnaire.created_at.desc())
+            .first()
+        )
+
+        if not q or not b:
+            raise HTTPException(400, "Datu guztiak ez daude eskuragarri")
         
+        # Mirar en qué grupo meter cada paciente, para eso mirar respuestas de los formularios
+
+        datos = DatosEntrada(
+            formulario1=q.answers["formulario1"],
+            formulario2=q.answers["formulario2"],
+            il6_value=b.il6_value,
+            dental_plaque=b.dental_plaque,
+            tooth_count=b.tooth_count,
+            ph_value=b.ph_value        
+        )
+
+        score_f1,  score_f2, score_f2_q8 = calcular_scores_parciales(datos)
+
+        f2 = q.answers.get("formulario2", {})
+
+        if f2.get("menpekotasuna")in ("bat","bi","hiru"):
+            menpekotasuna="bai"
+        else:
+            menpekotasuna="ez"
+
+        writer.writerow([
+            p.patient_code,
+            b.il6_value,
+            b.dental_plaque,
+            f2.get("kardiopatia"),
+            menpekotasuna,
+            score_f1,
+            score_f2,
+            score_f2_q8
+        ])
+        
+    output.seek(0)
+
+    return StreamingResponse(
+        iter([output.getvalue()]),
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=jamovi_export.csv"}
+    )
+ 
     

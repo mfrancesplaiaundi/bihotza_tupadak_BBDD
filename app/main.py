@@ -37,12 +37,12 @@ app.include_router(patient.router)
 @app.post("/api/login")
 def login(data: LoginRequest, db: Session = Depends(get_db)):
 
-    # 1️⃣ ¿Es investigador?
-    if data.username == "investigador" and data.password == "investigador":
+    #  ¿Es investigador?
+    if data.username == "ikertzailea" and data.password == "bihotzataupaka2026!":
         token = create_access_token({"role": "researcher"})
         return {"access_token": token, "role": "researcher"}
 
-    # 2️⃣ ¿Es paciente? (username = patient_code)
+    #  ¿Es paciente? (username = patient_code)
     patient = db.query(Patient)\
         .filter_by(patient_code=data.username)\
         .first()

@@ -560,3 +560,35 @@ async function cargarEstadisticas() {
   tbody.appendChild(fila4);
   
 }
+
+async function exportarDatos() {
+  try {
+    const token = sessionStorage.getItem("token");
+
+    const res = await fetch("/api/researcher/exportar", {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
+
+    if (!res.ok) {
+      alert("Errorea datuak esportatzen");
+      return;
+    }
+
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "jamovi_export.csv";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error(error);
+    alert("Errorea esportazioan");
+  }
+}  
