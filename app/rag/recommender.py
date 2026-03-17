@@ -104,7 +104,7 @@ def recomendar_links(perfil: dict, max_links: int = 8, lang: str = "es") -> list
     return result
 
 
-def recomendar_sources(perfil: dict, max_sources: int = 4, lang: str = "es") -> list[dict]:
+def recomendar_sources(perfil: dict, max_sources: int = 3, lang: str = "es") -> list[dict]:
  
     tags = _tags_desde_formularios(perfil)
 
