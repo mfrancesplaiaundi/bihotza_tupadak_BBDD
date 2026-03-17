@@ -12,7 +12,7 @@ SOURCES = [
     {
         "id": "sepa_dieta_salud_bucal",
         "title": "SEPA - Recomendaciones sobre dieta y salud bucal",
-        "url": "https://sepa.es/download/recomendaciones-sobre-dieta-y-salud-bucal/",
+        "url": "https://sepa.es/download/recomendaciones-sobre-dieta-y-salud-bucal/?wpdmdl=51283&_wpdmkey=69b91cdf4e1fd&subscriber=O9p-ySRz1XKM40lC7Rr3nsx4_hld9vLPLr9Y6902V4bJS6Fnipa0NQKByKIB96UBCqOnm8cFj0NUidqnQp_oAfA",
         "lang": "es",
         "type": "pdf",
         "tags": ["dieta", "salud_bucal", "habitos"]
@@ -163,7 +163,7 @@ SOURCES = [
         "id": "sediabetes_oral_hygiene",
         "title": "SED - Oral hygiene (PDF)",
         "url": "https://www.sediabetes.org/wp-content/uploads/231102-SED_Oral-hygiene.pdf",
-        "lang": "es",
+        "lang": "en",
         "type": "pdf",
         "tags": ["diabetes", "salud_bucal", "habitos"]
     },

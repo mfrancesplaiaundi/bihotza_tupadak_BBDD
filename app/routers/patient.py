@@ -6,9 +6,11 @@ from app.schemas import DatosFormulario, DatosEntrada
 from app.auth import require_role
 from app.services.scoring import calcular_score
 from app.rag.recommender import buscar_fuentes_por_tags, recomendar_links, recomendar_sources, tags_para_recomendacion
-from app.services.ia_recomendations import enriquecer_recomendacion_con_ia_cloud
+from app.services.ia_recomendations import enriquecer_recomendacion_con_ia_cloud, generar_recomendaciones_con_ia
+
 
 import hashlib
+import json
 
 router = APIRouter(prefix="/api/patient", tags=["patient"])
 
@@ -130,7 +132,7 @@ def mensaje_general(nivel):
             "🔴 Hau da zure unea: hartu norabidea berriro. Zure ahoko eta bihotzeko osasuna lehentasun bihurtzen duzunean, bidea argituko zaizu berriz."
         ]
 
-def recomendacion_personalizada_ia(
+""" def recomendacion_personalizada_ia(
     score: float,
     nivel_code: str,
     factores: list[str],
@@ -140,14 +142,7 @@ def recomendacion_personalizada_ia(
     dientes: int,
     ph: float
 ):
-    #fallback por si no hay IA aún o falla
 
-
-    # Aquí, cuando implementes RAG, llamas a tu función:
-    # advice = generar_consejos_rag(...)
-    # return advice
-
-    # (provisional)
     recomendaciones = []
     texto = []
     links = []
@@ -211,7 +206,7 @@ def recomendacion_personalizada_ia(
         rec_tags = tags_para_recomendacion(rec)
         rec["sources"] = buscar_fuentes_por_tags(
             tags=rec_tags,
-            max_items=2,
+            max_items=3,
             lang="es"
         )
 
@@ -233,3 +228,64 @@ def recomendacion_personalizada_ia(
         "sources": sources,
         "modo": "heuristica"
     }
+ """
+
+def recomendacion_personalizada_ia(
+    score: float,
+    nivel_code: str,
+    factores: list[str],
+    answers: dict,
+    il6: float,
+    placa: float,
+    dientes: float,
+    ph: float
+):
+    perfil = {
+        "score": score,
+        "nivel_code": nivel_code,
+        "factores": factores,
+        "formulario1": answers.get("formulario1", {}),
+        "formulario2": answers.get("formulario2", {}),
+        "il6": il6,
+        "placa": placa,
+        "dientes": dientes,
+        "ph": ph
+    }
+
+    links = recomendar_links(perfil)
+    sources = recomendar_sources(perfil)
+
+    try:
+        respuesta_ia = generar_recomendaciones_con_ia(perfil, sources)
+        data_ia = parsear_json_ia(respuesta_ia)
+
+        return {
+            "summary": data_ia.get("summary", ""),
+            "recommendations": data_ia.get("recommendations", []),
+            "links": links,
+            "sources": sources,
+            "modo": "ia"
+        }
+
+    except Exception as e:
+        return {
+            "summary": "Ezin izan dira gomendio aurreratuak sortu.",
+            "recommendations": [],
+            "links": links,
+            "sources": sources,
+            "modo": "fallback",
+            "error": str(e)
+        }
+
+
+def parsear_json_ia(texto: str) -> dict:
+    texto = texto.strip()
+
+    inicio = texto.find("{")
+    fin = texto.rfind("}")
+
+    if inicio == -1 or fin == -1:
+        raise ValueError("La IA no devolvió un JSON válido")
+
+    json_str = texto[inicio:fin + 1]
+    return json.loads(json_str)
