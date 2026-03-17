@@ -6,7 +6,7 @@ from app.services.source_context import (
     construir_contexto_fuentes,
 )
 
-OLLAMA_MODEL = "qwen3-next:80b"
+OLLAMA_MODEL = "qwen3.5:397b"
 
 client = Client(
     host="https://ollama.com",
