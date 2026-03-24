@@ -2,20 +2,12 @@
 SOURCES = [
     # --- SEPA (folletos / guías) ---
     {
-        "id": "sepa_folletos_pacientes",
-        "title": "SEPA - Folletos para pacientes",
-        "url": "https://sepa.es/downloads/folletos-para-pacientes/",
-        "lang": "es",
-        "type": "web",
-        "tags": ["general", "encias", "periodontitis", "prevencion"]
-    },
-    {
         "id": "sepa_dieta_salud_bucal",
         "title": "SEPA - Recomendaciones sobre dieta y salud bucal",
         "url": "https://sepa.es/download/recomendaciones-sobre-dieta-y-salud-bucal/?wpdmdl=51283&_wpdmkey=69b91cdf4e1fd&subscriber=O9p-ySRz1XKM40lC7Rr3nsx4_hld9vLPLr9Y6902V4bJS6Fnipa0NQKByKIB96UBCqOnm8cFj0NUidqnQp_oAfA",
         "lang": "es",
         "type": "pdf",
-        "tags": ["dieta", "salud_bucal", "habitos"]
+        "tags": ["dieta", "higiene_oral", "educacion_paciente"]
     },
     {
         "id": "sepa_diabetes_encias",
@@ -23,7 +15,7 @@ SOURCES = [
         "url": "https://sepa.es/download/si-padeces-diabetes-cuida-tus-encias/",
         "lang": "es",
         "type": "pdf",
-        "tags": ["diabetes", "encias", "periodontitis"]
+        "tags": ["diabetes", "encias", "periodontitis", "educacion_paciente"]
     },
     {
         "id": "sepa_hablemos_encia",
@@ -31,7 +23,7 @@ SOURCES = [
         "url": "https://sepa.es/download/hablemos-de-tu-encia/",
         "lang": "es",
         "type": "pdf",
-        "tags": ["encias", "sangrado", "gingivitis", "prevencion"]
+        "tags": ["encias", "sangrado_gingival", "gingivitis", "educacion_paciente"]
     },
     {
         "id": "sepa_sin_tabaco",
@@ -39,7 +31,7 @@ SOURCES = [
         "url": "https://sepa.es/download/folleto-cte-sin-tabaco/",
         "lang": "es",
         "type": "pdf",
-        "tags": ["tabaco", "riesgo", "encias", "periodontitis"]
+        "tags": ["tabaco", "encias", "periodontitis", "educacion_paciente"]
     },
     {
         "id": "sepa_test_salud_gingival",
@@ -47,7 +39,7 @@ SOURCES = [
         "url": "https://sepa.es/download/test-salud-gingival-folleto/",
         "lang": "es",
         "type": "pdf",
-        "tags": ["test", "encias", "auto_evaluacion"]
+        "tags": ["autoevaluacion", "encias", "gingivitis", "educacion_paciente"]
     },
     {
         "id": "sepa_enfermedades_periodontales",
@@ -55,7 +47,7 @@ SOURCES = [
         "url": "https://sepa.es/download/las-enfermedades-periodontales-folleto/",
         "lang": "es",
         "type": "pdf",
-        "tags": ["periodontitis", "gingivitis", "encias", "general"]
+        "tags": ["periodontitis", "gingivitis", "encias", "educacion_paciente"]
     },
     {
         "id": "sepa_guia_tratamiento_periodontal",
@@ -63,7 +55,7 @@ SOURCES = [
         "url": "https://sepa.es/download/guia-de-tratamiento-periodontal/",
         "lang": "es",
         "type": "pdf",
-        "tags": ["tratamiento", "periodontitis", "profundizacion"]
+        "tags": ["periodontitis", "tratamiento_periodontal", "guia_clinica"]
     },
     {
         "id": "sepa_sensibilidad",
@@ -71,7 +63,7 @@ SOURCES = [
         "url": "https://sepa.es/download/cte-calma-la-sensibilidad-dental/",
         "lang": "es",
         "type": "pdf",
-        "tags": ["sensibilidad", "dientes", "habitos"]
+        "tags": ["sensibilidad_dental", "dientes", "educacion_paciente"]
     },
     {
         "id": "sepa_diabetes_protocolo",
@@ -79,7 +71,7 @@ SOURCES = [
         "url": "https://sepa.es/download/protocolo-diabetes/",
         "lang": "es",
         "type": "pdf",
-        "tags": ["diabetes", "protocolo", "profundizacion"]
+        "tags": ["diabetes", "guia_clinica", "periodontitis"]
     },
     {
         "id": "sepa_mimocardio",
@@ -87,7 +79,7 @@ SOURCES = [
         "url": "https://sepa.es/download/folleto-mimocardio/",
         "lang": "es",
         "type": "pdf",
-        "tags": ["corazon", "cardio", "prevencion"]
+        "tags": ["cardiovascular", "educacion_paciente", "periodontitis"]
     },
     {
         "id": "sepa_corazon_2019",
@@ -95,7 +87,7 @@ SOURCES = [
         "url": "https://sepa.es/download/folleto-sepa-corazon-2019/",
         "lang": "es",
         "type": "pdf",
-        "tags": ["corazon", "cardio", "periodontitis"]
+        "tags": ["cardiovascular", "periodontitis", "educacion_paciente"]
     },
 
     # --- BSPERIO / EFP (inglés, por ahora como extra) ---
@@ -105,7 +97,7 @@ SOURCES = [
         "url": "https://www.bsperio.org.uk/professionals/publications",
         "lang": "en",
         "type": "web",
-        "tags": ["profundizacion", "periodontitis", "evidencia"]
+        "tags": ["periodontitis", "guia_clinica", "recurso_general"]
     },
     {
         "id": "bsperio_perio_cvd_patients",
@@ -113,7 +105,7 @@ SOURCES = [
         "url": "https://www.bsperio.org.uk/assets/downloads/Perio-CVD_Advice_for_Patients.pdf",
         "lang": "en",
         "type": "pdf",
-        "tags": ["corazon", "cardio", "periodontitis"]
+        "tags": ["cardiovascular", "periodontitis", "educacion_paciente"]
     },
     {
         "id": "bsperio_diabetes",
@@ -121,7 +113,7 @@ SOURCES = [
         "url": "https://www.bsperio.org.uk/patients/gum-disease-and-diabetes",
         "lang": "en",
         "type": "web",
-        "tags": ["diabetes", "encias", "periodontitis"]
+        "tags": ["diabetes", "encias", "periodontitis", "educacion_paciente"]
     },
     {
         "id": "efp_check_gum",
@@ -129,34 +121,20 @@ SOURCES = [
         "url": "https://www.efp.org/for-patients/assess-your-gum-health/check-your-gum-health/",
         "lang": "en",
         "type": "web",
-        "tags": ["test", "encias", "auto_evaluacion"]
+        "tags": ["autoevaluacion", "encias", "gingivitis", "periodontitis"]
     },
 
     # --- Cardioalianza (es) ---
-    {
-        "id": "cardioalianza_home",
-        "title": "Cardioalianza",
-        "url": "https://cardioalianza.org/",
-        "lang": "es",
-        "type": "web",
-        "tags": ["corazon", "cardio", "prevencion"]
-    },
+    
     {
         "id": "cardioalianza_cuida_corazon",
         "title": "Cardioalianza - Cuida tu corazón",
         "url": "https://cardioalianza.org/cuida-tu-corazon/",
         "lang": "es",
         "type": "web",
-        "tags": ["corazon", "cardio", "habitos"]
+        "tags": ["cardiovascular", "habitos_saludables", "educacion_paciente"]
     },
-    {
-        "id": "cardioalianza_tv",
-        "title": "Cardioalianza TV - Recursos",
-        "url": "https://cardioalianza.org/cardioalianza-tv/#recursos",
-        "lang": "es",
-        "type": "web",
-        "tags": ["corazon", "cardio", "videos"]
-    },
+    
 
     # --- SEDiabetes / ADA (es/en) ---
     {
@@ -165,7 +143,7 @@ SOURCES = [
         "url": "https://www.sediabetes.org/wp-content/uploads/231102-SED_Oral-hygiene.pdf",
         "lang": "en",
         "type": "pdf",
-        "tags": ["diabetes", "salud_bucal", "habitos"]
+        "tags": ["diabetes", "higiene_oral", "educacion_paciente"]
     },
     {
         "id": "ada_home_care",
@@ -173,7 +151,7 @@ SOURCES = [
         "url": "https://www.ada.org/resources/ada-library/oral-health-topics/home-care",
         "lang": "en",
         "type": "web",
-        "tags": ["general", "habitos", "cepillado", "interdental"]
+        "tags": ["higiene_oral", "cepillado", "higiene_interdental", "educacion_paciente"]
     },
     {
         "id": "ada_toothbrushes",
@@ -181,7 +159,7 @@ SOURCES = [
         "url": "https://www.ada.org/resources/ada-library/oral-health-topics/toothbrushes",
         "lang": "en",
         "type": "web",
-        "tags": ["cepillado", "cepillo", "habitos"]
+        "tags": ["cepillado", "tecnica_cepillado", "educacion_paciente"]
     },
 # ---Dientes ---
     {
@@ -190,7 +168,7 @@ SOURCES = [
         "url": "https://pubmed.ncbi.nlm.nih.gov/21050499/",
         "lang": "en",
         "type": "web",
-        "tags": ["perdida dental", "calidad de vida", "salud oral"]
+        "tags": ["perdida_dental", "calidad_vida", "periodontitis"]
     },
     {
         "id": "periodontal_disease_tooth_loss_systemic_conditions",
@@ -198,7 +176,7 @@ SOURCES = [
         "url": "https://pubmed.ncbi.nlm.nih.gov/37833208/",
         "lang": "en",
         "type": "web",
-        "tags": ["periodontitis", "perdida dental", "salud sistemica"]
+        "tags": ["periodontitis", "perdida_dental", "inflamacion", "cardiovascular"]
     },
     {
         "id": "predictors_tooth_loss_periodontitis",
@@ -206,7 +184,7 @@ SOURCES = [
         "url": "https://pubmed.ncbi.nlm.nih.gov/31025366/",
         "lang": "en",
         "type": "web",
-        "tags": ["periodontitis", "perdida dental", "factores de riesgo"]
+        "tags": ["periodontitis", "perdida_dental", "factores_riesgo"]
     },
     {
         "id": "tooth_loss_systemic_inflammation_periodontal_pathogens_cvd",
@@ -214,7 +192,7 @@ SOURCES = [
         "url": "https://pubmed.ncbi.nlm.nih.gov/29139559/",
         "lang": "en",
         "type": "web",
-        "tags": ["perdida dental", "inflamacion sistemica", "corazon"]
+        "tags": ["perdida_dental", "inflamacion", "cardiovascular", "periodontitis"]
     },
     {
         "id": "missing_teeth_mortality_hospitalization",
@@ -222,7 +200,7 @@ SOURCES = [
         "url": "https://pubmed.ncbi.nlm.nih.gov/41100217/",
         "lang": "en",
         "type": "web",
-        "tags": ["perdida dental", "mortalidad", "hospitalizacion"]
+        "tags": ["perdida_dental", "cardiovascular", "riesgo_sistemico"]
     },
     {
         "id": "number_of_teeth_periodontal_pockets",
@@ -230,7 +208,7 @@ SOURCES = [
         "url": "https://pubmed.ncbi.nlm.nih.gov/1864066/",
         "lang": "en",
         "type": "web",
-        "tags": ["perdida dental", "bolsas periodontales", "periodoncia"]
+        "tags": ["perdida_dental", "periodontitis", "bolsas_periodontales"]
     },
 
     # --- PH ---
@@ -240,7 +218,7 @@ SOURCES = [
         "url": "https://pubmed.ncbi.nlm.nih.gov/34305133/",
         "lang": "en",
         "type": "web",
-        "tags": ["saliva", "ph", "flujo salival", "periodontitis", "cardiovascular"]
+        "tags": ["saliva", "ph", "flujo_salival", "periodontitis", "cardiovascular"]
     },
     {
         "id": "salivary_flow_rate_ph_oral_pathologies",
@@ -248,7 +226,7 @@ SOURCES = [
         "url": "https://pubmed.ncbi.nlm.nih.gov/28165549/",
         "lang": "en",
         "type": "web",
-        "tags": ["saliva", "ph", "flujo salival", "patologias orales"]
+        "tags": ["saliva", "ph", "flujo_salival", "patologia_oral"]
     },
     {
         "id": "importance_of_saliva_for_oral_health",
@@ -256,7 +234,7 @@ SOURCES = [
         "url": "https://revistamedical.com/index.php/whj/article/view/40/35",
         "lang": "es",
         "type": "web",
-        "tags": ["saliva", "salud_oral", "ph", "enfermedades"]
+        "tags": ["saliva", "ph", "higiene_oral", "educacion_paciente"]
     },
     {
         "id": "oral_mucosal_ph_healthy_saliva_secretors",
@@ -264,7 +242,7 @@ SOURCES = [
         "url": "https://pubmed.ncbi.nlm.nih.gov/16792729/",
         "lang": "en",
         "type": "web",
-        "tags": ["mucosa oral", "ph", "saliva", "valores normales"]
+        "tags": ["ph", "saliva", "valores_normales"]
     },
     {
         "id": "factors_affecting_intra_oral_ph_review",
@@ -272,18 +250,18 @@ SOURCES = [
         "url": "https://pubmed.ncbi.nlm.nih.gov/27573678/",
         "lang": "en",
         "type": "web",
-        "tags": ["ph", "saliva", "revision", "factores"]
+        "tags": ["ph", "saliva", "factores_riesgo"]
     },
 
     # --- YouTube (vídeos) ---
-    {"id": "yt_diabetes_1", "title": "Prevención de la Diabetes Tipo 2", "url": "https://youtu.be/4FZVxrOi19U", "lang": "es", "type": "video", "tags": ["diabetes","dieta", "habitos", "videos"]},
-    {"id": "yt_diabetes_2", "title": "Diabetes y enfermedad cardiovascular", "url": "https://youtu.be/0GopzbtOCog", "lang": "es", "type": "video", "tags": ["diabetes", "videos"]},
-    {"id": "yt_electrico_1", "title": "Vídeos sobre higiene bucodental. Cepillo eléctrico", "url": "https://youtu.be/NoIjRubNYNM", "lang": "es", "type": "video", "tags": ["electrico", "general", "videos"]},
-    {"id": "yt_colutorio_2", "title": "Vídeos sobre higiene bucodental. Colutorio", "url": "https://youtu.be/Pf7k1uI7-IQ", "lang": "es", "type": "video", "tags": ["accesorio", "interdental", "hilo", "videos"]},
-    {"id": "yt_irrigadores_1", "title": "Vídeos sobre higiene bucodental. Irrigadores", "url": "https://youtu.be/Bv1hfJgUEW8", "lang": "es", "type": "video", "tags": ["encias", "accesorio", "videos"]},
-    {"id": "yt_dental_2", "title": "Vídeos sobre higiene bucodental. Seda dental", "url": "https://youtu.be/REsQFO3oiCE", "lang": "es", "type": "video", "tags": ["accesorio", "encias", "periodontitis", "videos"]},
-    {"id": "yt_interdental_1", "title": "Vídeos sobre higiene bucodental. Cepillo interdental", "url": "https://youtu.be/2kpWj8BzZBM", "lang": "es", "type": "video", "tags": ["dieta", "salud_bucal", "videos"]},
-    {"id": "yt_cepillo_1", "title": "Vídeos sobre higiene bucodental. Cepillo convencional", "url": "https://youtu.be/jLFUD74h4Bo", "lang": "es", "type": "video", "tags": ["cepillado", "general", "videos"]},
-    {"id": "yt_corazon_2", "title": "Vídeos sobre higiene bucodental. Raspador lingual", "url": "https://youtu.be/Ud7_C42m6xY", "lang": "es", "type": "video", "tags": ["accesorio", "cardio", "videos"]},
-    {"id": "yt_pasta_1", "title": "Vídeos sobre higiene bucodental. Pasta dental fluorada", "url": "https://youtu.be/Ym3nHwu-ox8", "lang": "es", "type": "video", "tags": ["general", "habitos", "videos", "accesorio"]},
+    {"id": "yt_diabetes_1", "title": "Prevención de la Diabetes Tipo 2", "url": "https://youtu.be/4FZVxrOi19U", "lang": "es", "type": "video",    "tags": ["diabetes", "dieta", "habitos_saludables", "video_educativo"]},
+    {"id": "yt_diabetes_2", "title": "Diabetes y enfermedad cardiovascular", "url": "https://youtu.be/0GopzbtOCog", "lang": "es", "type": "video", "tags": ["diabetes", "cardiovascular", "video_educativo"]},
+    {"id": "yt_electrico_1", "title": "Vídeos sobre higiene bucodental. Cepillo eléctrico", "url": "https://youtu.be/NoIjRubNYNM", "lang": "es", "type": "video", "tags": ["cepillo_electrico", "cepillado", "video_educativo"]},
+    {"id": "yt_colutorio_2", "title": "Vídeos sobre higiene bucodental. Colutorio", "url": "https://youtu.be/Pf7k1uI7-IQ", "lang": "es", "type": "video", "tags":  ["colutorio", "higiene_interdental", "video_educativo"]},
+    {"id": "yt_irrigadores_1", "title": "Vídeos sobre higiene bucodental. Irrigadores", "url": "https://youtu.be/Bv1hfJgUEW8", "lang": "es", "type": "video", "tags": ["irrigador", "higiene_interdental", "encias", "video_educativo"]},
+    {"id": "yt_dental_2", "title": "Vídeos sobre higiene bucodental. Seda dental", "url": "https://youtu.be/REsQFO3oiCE", "lang": "es", "type": "video", "tags": ["hilo_dental", "higiene_interdental", "encias", "video_educativo"]},
+    {"id": "yt_interdental_1", "title": "Vídeos sobre higiene bucodental. Cepillo interdental", "url": "https://youtu.be/2kpWj8BzZBM", "lang": "es", "type": "video", "tags":  ["cepillo_interdental", "higiene_interdental", "video_educativo"]},
+    {"id": "yt_cepillo_1", "title": "Vídeos sobre higiene bucodental. Cepillo convencional", "url": "https://youtu.be/jLFUD74h4Bo", "lang": "es", "type": "video", "tags":["cepillado", "tecnica_cepillado", "video_educativo"]},
+    {"id": "yt_raspador_2", "title": "Vídeos sobre higiene bucodental. Raspador lingual", "url": "https://youtu.be/Ud7_C42m6xY", "lang": "es", "type": "video", "tags": ["raspador_lingual", "higiene_oral", "video_educativo"]},
+    {"id": "yt_pasta_1", "title": "Vídeos sobre higiene bucodental. Pasta dental fluorada", "url": "https://youtu.be/Ym3nHwu-ox8", "lang": "es", "type": "video", "tags": ["pasta_fluorada", "cepillado", "higiene_oral", "video_educativo"]},
 ]

@@ -69,7 +69,7 @@ def enriquecer_recomendacion_con_ia_cloud(rec: dict, perfil: dict) -> str:
 
 
 def generar_recomendaciones_con_ia(perfil: dict, sources: list[dict]) -> dict:
-    fuentes_resueltas = resolver_fuentes_a_contexto(sources, max_fuentes=3)
+    fuentes_resueltas = resolver_fuentes_a_contexto(sources, max_fuentes=5)
     contexto_fuentes = construir_contexto_fuentes(fuentes_resueltas)
 
     prompt = f"""
@@ -85,7 +85,7 @@ Pazientearen datuak:
 Iturriak:
 {contexto_fuentes if contexto_fuentes else "Ez dago iturri erabilgarririk."}
 
-Sortu gehienez 5 gomendio, lehentasunaren arabera ordenatuta. Desberdinak izan behar dira. Gomendio bakoitzetik esan ze iturriak erabili dituzun gomendioa egiteko, url-a. Iturriak eta gomendioak desberdinak izan behar dira.
+Sortu gehienez 4 gomendio, lehentasunaren arabera ordenatuta. Desberdinak izan behar dira. Gomendio bakoitzetik esan ze iturriak erabili dituzun gomendioa egiteko, url-a. Iturriak eta gomendioak desberdinak izan behar dira.
 
 Erantzun JSON hutsean formatu honetan:
 {{

@@ -99,7 +99,7 @@ def resultados_paciente(
         score=score,
         nivel_code=nivel,
         factores=factores,
-        answers=q.answers,            # contiene formulario1 y 2
+        answers=q.answers,            
         il6=b.il6_value,
         placa=b.dental_plaque,
         dientes=b.tooth_count,
