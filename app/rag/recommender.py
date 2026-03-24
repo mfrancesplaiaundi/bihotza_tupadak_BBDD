@@ -12,32 +12,34 @@ def _tags_desde_formularios(perfil: dict) -> set[str]:
 
     ph = float(perfil.get("ph", 0) or 0)
 
+    placa = float(perfil.get("placa", 0) or 0)
+    il6 = float(perfil.get("il6", 0) or 0)
+
     # --- Formulario 1 (hábitos) ---
     cepillado = f1.get("cepillado")
     if cepillado in ("behin", "gutxi"):
-        tags.update(["cepillado", "habitos", "tecnica"])
+        tags.update(["cepillado", "tecnica_cepillado", "higiene_oral"])
 
     tiempo = f1.get("tiempo")
     if tiempo == "gutxi":
-        tags.update(["cepillado", "habitos"])
+        tags.update(["cepillado", "tecnica_cepillado"])
 
     eskuila = f1.get("eskuila")
     if eskuila == "eskukoa":
-        tags.update(["electrico", "cepillado"])
+        tags.update(["cepillado", "cepillo_electrico", "tecnica_cepillado"])
 
     osagarria = f1.get("osagarria")
     if osagarria == "ez":
-        tags.update(["accesorio", "interdental", "hilo", "habitos"])
+        tags.update(["higiene_interdental", "hilo_dental", "cepillo_interdental"])
 
     klinika = f1.get("klinika")
     if klinika in ("bosturte", "tartean"):
-        tags.update(["revision", "dentista", "prevencion"])
+        tags.update(["revision_dental", "limpieza_profesional"])
 
     # --- Formulario 2 (riesgos) ---
-    # diabetes en tu form2: "ez" / "bat" / "bi"
     diabetes = f2.get("diabetes")
     if diabetes in ("bat", "bi"):
-        tags.update(["diabetes", "salud_bucal", "encias"])
+        tags.update(["diabetes", "encias", "periodontitis"])
 
     erretzailea = f2.get("erretzailea")
     if erretzailea == "bai":
@@ -45,21 +47,30 @@ def _tags_desde_formularios(perfil: dict) -> set[str]:
 
     kardiopatia = f2.get("kardiopatia")
     if kardiopatia == "bai":
-        tags.update(["corazon", "cardio", "prevencion"])
+        tags.update(["cardiovascular", "periodontitis"])
+
+    # --- Biomarcadores / datos clínicos ---
+    if placa >= 2:
+        tags.update(["placa", "encias", "gingivitis", "periodontitis"])
+
+    if il6 > 10:
+        tags.update(["inflamacion", "periodontitis"])
 
     # --- Score / nivel ---
     if score >= 50:
-        tags.update(["periodontitis", "refuerzo", "habitos"])
+        tags.update(["periodontitis", "encias", "revision_dental"])
     if score >= 75:
-        tags.update(["tratamiento", "profundizacion"])
+        tags.update(["periodontitis", "tratamiento_periodontal", "guia_clinica"])
 
     # --- Dientes ---
+    # ajusta esta condición si 0 significa "sin dato"
     if dientes != 0:
-        tags.update(["perdida dental", "periodontitis"])
+        tags.update(["perdida_dental", "periodontitis"])
 
     # --- pH ---
     if ph <= 6.5:
-        tags.update(["ph", "saliva", "salud_oral"])
+        tags.update(["ph", "saliva", "flujo_salival"])
+
 
     return tags
 
