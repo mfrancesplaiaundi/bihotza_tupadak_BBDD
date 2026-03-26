@@ -39,3 +39,26 @@ class Biomarker(Base):
 
     patient = relationship("Patient", back_populates="biomarkers")
 
+class Result(Base):
+    __tablename__ = "results"
+
+    id = Column(Integer, primary_key=True)
+    patient_id = Column(String, ForeignKey("patients.id"), nullable=False)
+    questionnaire_id = Column(Integer, ForeignKey("questionnaires.id"), nullable=False)
+    biomarker_id = Column(Integer, ForeignKey("biomarkers.id"), nullable=False)
+
+    score = Column(Float, nullable=False)
+    nivel = Column(String, nullable=False)
+    factores = Column(JSON, nullable=False)
+    mensaje_general = Column(JSON, nullable=False)
+
+    ia_texto = Column(String, nullable=True)
+    ia_links = Column(JSON, nullable=True)
+    ia_sources = Column(JSON, nullable=True)
+    ia_mode = Column(String, nullable=True)
+
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    patient = relationship("Patient")
+    questionnaire = relationship("Questionnaire")
+    biomarker = relationship("Biomarker")

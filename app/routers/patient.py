@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.database import get_db
-from app.models import Patient, Questionnaire, Biomarker
+from app.models import Patient, Questionnaire, Biomarker, Result
 from app.schemas import DatosFormulario, DatosEntrada
 from app.auth import require_role
 from app.services.scoring import calcular_score
@@ -74,6 +74,29 @@ def resultados_paciente(
 
     if not q or not b:
         raise HTTPException(400, "Datu guztiak ez daude eskuragarri")
+    
+    existing = (
+        db.query(Result)
+        .filter(
+            Result.questionnaire_id == q.id,
+            Result.biomarker_id == b.id
+        )
+        .first()
+    )
+
+    if existing:
+        return {
+            "score": existing.score,
+            "nivel": existing.nivel,
+            "factores": existing.factores,
+            "mensaje_general": existing.mensaje_general,
+            "recomendacion_personalizada": {
+                "texto": existing.ia_texto,
+                "links": existing.ia_links or [],
+                "sources": existing.ia_sources or [],
+                "modo": existing.ia_mode
+            }
+        }
 
     datos = DatosEntrada(
         formulario1=q.answers["formulario1"],
@@ -105,6 +128,23 @@ def resultados_paciente(
         dientes=b.tooth_count,
         ph=b.ph_value
     )
+
+    result = Result(
+        patient_id=payload["patient_id"],
+        questionnaire_id=q.id,
+        biomarker_id=b.id,
+        score=score,
+        nivel=nivel,
+        factores=factores,
+        mensaje_general=mensaje_general(nivel),
+        ia_texto=ia.get("texto"),
+        ia_links=ia.get("links", []),
+        ia_sources=ia.get("sources", []),
+        ia_mode=ia.get("modo")
+    )
+
+    db.add(result)
+    db.commit()
 
     return {
         "score": score,
