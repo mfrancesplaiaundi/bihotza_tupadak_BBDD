@@ -7,36 +7,7 @@ body {
     color: #243447;
 }
 
-/* ---------- MENÚ SUPERIOR ---------- */
 
-.menu {
-    background: #0a4d7a;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    padding: 12px 30px;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.menu .logo {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.menu a {
-    color: white;
-    margin-left: 20px;
-    text-decoration: none;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.menu a:hover {
-    text-decoration: underline;
-}
 
 /* ---------- CABECERA HERO ---------- */
 .imagen{
@@ -44,8 +15,6 @@ body {
 }
 .hero {
     text-align: center;
-    padding: 20px 20px;
-    background: linear-gradient(#0a4d7a, #0f6da5);
     color: white;
 }
 
@@ -58,12 +27,54 @@ body {
 /* ---------- CONTENEDOR PRINCIPAL ---------- */
 
 .container {
-    width: 90%;
-    max-width: 1100px;
-    margin: 40px auto;
+    height: 60vh;
+    background: linear-gradient(#0a4d7a, #0f6da5);
+    opacity: 0.9;
     display: flex;
     flex-direction: column;
     gap: 25px;
+}
+
+#login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 300px;
+  margin: auto auto;
+  padding: 10px 20px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+  font-family: sans-serif;
+}
+
+#loginTitulo {
+  margin-bottom: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+#login input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box; /* Asegura que el padding no ensanche el input */
+  text-align: center;
+}
+
+#botonLogin{
+    width: 100%; /* Opcional: botón ancho completo */
+  padding: 12px 24px;
+  background-color: #336bcd;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+  font-size: 15px;
 }
 
 /* ---------- TARJETAS ---------- */
@@ -153,9 +164,6 @@ textarea {
 
 .footer {
     text-align: center;
-    padding: 20px;
-    background: #ffffff;
-    margin-top: 40px;
     font-size: 14px;
 }
 

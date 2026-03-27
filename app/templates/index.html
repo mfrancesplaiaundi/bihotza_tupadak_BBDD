@@ -11,20 +11,10 @@
 <body>
 
 <!-- MENÚ SUPERIOR -->
-<nav class="menu">
-    <div class="logo">BIHOTZA TAUPAKA, IRRIBARREA AHOAN</div>
-    <div class="links">
-<!--         <a onclick="mostrar('form1')">Aho Higienea</a>
-        <a onclick="mostrar('form2')">Bihotz Osasuna eta Menpekotasuna</a>
-        <a onclick="mostrar('formAnalitica')">Analisi-balioak</a>
-        <a onclick="mostrar('resultados')">Emaitzak eta Gomendioak</a> -->
-    </div>
-</nav>
-<div class="imagen" ><img src="../static/img/logo.JPG" alt="logo" width="400px" /></div>
 
+<div class="imagen" ><img src="../static/img/logo.JPG" alt="logo" width="250px" /></div>
 
 <header class="hero">
-    <h3>BIHOTZA TAUPAKA, IRRIBARREA AHOAN</h3>
     <button class=btn-clinica-primary id="logoutBtn" onclick="logout()" style="display:none;">
   Irteen
 </button>
@@ -33,10 +23,10 @@
 
 <main class="container">
     <section id="login" class="visible">
-    <h2>Sarbidea</h2>
+    <h2 id="loginTitulo">Sarbidea</h2>
     <input id="user" placeholder="Kodea / Erabiltzailea">
     <input id="pass" type="password" placeholder="PIN / Pasahitza">
-    <button class=btn-clinica-primary type="button" onclick="login()">Sartu</button>
+    <button id="botonLogin" type="button" onclick="login()">Sartu</button>
     </section>
 
     <!-- VISTA PACIENTE: Menu paciente -->
@@ -389,7 +379,7 @@
 </main>
 
 <footer class="footer">
-<img src="../static/img/footer.JPG" alt="footer"  />
+<img src="../static/img/footer.JPG" alt="footer" width="600px"  />
 </footer>
 
 </body>

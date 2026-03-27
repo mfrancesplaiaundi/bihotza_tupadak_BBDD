@@ -6,7 +6,7 @@ from app.schemas import DatosFormulario, DatosEntrada
 from app.auth import require_role
 from app.services.scoring import calcular_score
 from app.rag.recommender import buscar_fuentes_por_tags, recomendar_links, recomendar_sources, tags_para_recomendacion
-from app.services.ia_recomendations import enriquecer_recomendacion_con_ia_cloud, generar_recomendaciones_con_ia
+from app.services.ia_recomendations import generar_recomendaciones_con_ia
 
 
 import hashlib
