@@ -56,7 +56,7 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
             })
             return {"access_token": token, "role": "patient"}
 
-    # 3️⃣ Nada válido
+    #  Nada válido
     raise HTTPException(status_code=401, detail="Credenciales incorrectas")
 
 @app.get("/", response_class=HTMLResponse)

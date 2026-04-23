@@ -333,8 +333,18 @@ async function mostrarResultadosPaciente() {
     }
     if (f.includes("pH azidoa")) {
       const li = document.createElement("li");
-      li.textContent = "Listu-pH baxu batek hainbat kausa izan ditzake (medikazioa, dieta, desordena gastrikoak, etab.) eta hortz-higadura, gaixotasun periodontala edo ahoko osasunaren beste desoreka batzuk eragin ditzake; kontsulta ezazu zure odontologoarekin jatorria identifikatzeko eta ahoko osasuna babesteko eta dagokion espezialistarekin bidera dezan";
+      li.textContent = "Listu-pH baxu batek hainbat kausa izan ditzake (medikazioa, dieta, desordena gastrikoak, etab.). Aldi berean, hortz-higadura, gaixotasun periodontala edo ahoko osasunaren beste desoreka batzuk eragin ditzake. Kontsulta ezazu zure odontologoarekin jatorria identifikatzeko, eta ahoko osasuna babesteko eta dagokion espezialistarekin bidera dezan";
       listaFactores.appendChild(li);
+      li.textContent = "Zure ahoaren pH maila azidoa denez, gomendagarria izan daiteke azukredun janariak eta edariak murriztea eguneroko dietan. Elikadura ohitura osasungarriek ahoaren oreka berreskuratzen laguntzen dute";
+      listaFactores.appendChild(li);
+      const a = document.createElement("a");
+      a.href = "https://sepa.es/download/recomendaciones-sobre-dieta-y-salud-bucal/?wpdmdl=51283&_wpdmkey=69b91cdf4e1fd&subscriber=O9p-ySRz1XKM40lC7Rr3nsx4_hld9vLPLr9Y6902V4bJS6Fnipa0NQKByKIB96UBCqOnm8cFj0NUidqnQp_oAfA";
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = "SEPA - Recomendaciones sobre dieta y salud bucal";
+      li.appendChild(a);
+      listaFactores.appendChild(li);
+
     }
     else if (f.includes("Erretzailea")){
       const li = document.createElement("li");

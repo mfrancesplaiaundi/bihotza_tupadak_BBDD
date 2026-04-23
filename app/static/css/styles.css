@@ -28,6 +28,7 @@ body {
 
 .container {
     height: 60vh;
+    padding: 40px;
     background: linear-gradient(#0a4d7a, #0f6da5);
     opacity: 0.9;
     display: flex;

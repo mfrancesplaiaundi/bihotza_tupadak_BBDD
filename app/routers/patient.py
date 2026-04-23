@@ -1,3 +1,5 @@
+from unittest import result
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.database import get_db
@@ -85,13 +87,22 @@ def resultados_paciente(
     )
 
     if existing:
+        ia_data = {"summary": "", "recommendations": []}
+
+        if existing.ia_texto:
+            try:
+                ia_data = json.loads(existing.ia_texto)
+            except json.JSONDecodeError:
+                ia_data = {"summary": existing.ia_texto, "recommendations": []}
+
         return {
             "score": existing.score,
             "nivel": existing.nivel,
             "factores": existing.factores,
             "mensaje_general": existing.mensaje_general,
             "recomendacion_personalizada": {
-                "texto": existing.ia_texto,
+                "summary": ia_data.get("summary", ""),
+                "recommendations": ia_data.get("recommendations", []),
                 "links": existing.ia_links or [],
                 "sources": existing.ia_sources or [],
                 "modo": existing.ia_mode
@@ -137,7 +148,10 @@ def resultados_paciente(
         nivel=nivel,
         factores=factores,
         mensaje_general=mensaje_general(nivel),
-        ia_texto=ia.get("texto"),
+        ia_texto=json.dumps({
+        "summary": ia.get("summary", ""),
+        "recommendations": ia.get("recommendations", [])
+        }, ensure_ascii=False),
         ia_links=ia.get("links", []),
         ia_sources=ia.get("sources", []),
         ia_mode=ia.get("modo")
@@ -171,104 +185,6 @@ def mensaje_general(nivel):
         return [
             "🔴 Hau da zure unea: hartu norabidea berriro. Zure ahoko eta bihotzeko osasuna lehentasun bihurtzen duzunean, bidea argituko zaizu berriz."
         ]
-
-""" def recomendacion_personalizada_ia(
-    score: float,
-    nivel_code: str,
-    factores: list[str],
-    answers: dict,
-    il6: float,
-    placa: float,
-    dientes: int,
-    ph: float
-):
-
-    recomendaciones = []
-    texto = []
-    links = []
-    sources = []
-
-    f1 = answers.get("formulario1", {})
-
-    perfil = {
-        "score": score,
-        "nivel_code": nivel_code,
-        "factores": factores,
-        "formulario1": answers.get("formulario1", {}),
-        "formulario2": answers.get("formulario2", {}),
-        "il6": il6,
-        "placa": placa,
-        "dientes": dientes,
-        "ph": ph
-    }
-
-    if f1.get("cepillado") in ("behin", "gutxi"):
-        recomendaciones.append({
-            "priority": "alta",
-            "text": "Saia zaitez egunean gutxienez 2 aldiz eskuilatzen (goizez eta gauez).",
-            "reason": "Eskuilatze maiztasun txikiak aho-higiene txarragoarekin lotura izan dezake.",
-            "tag": "cepillado"
-        })
-
-    if f1.get("osagarria") == "ez":
-        recomendaciones.append({
-            "priority": "alta",
-            "text": "Gehitu hortzarteko higienea (hari edo eskuila interproximalak) egunean behin.",
-            "reason": "Hortzen arteko higieneak plaka pilaketa murrizten lagun dezake.",
-            "tag": "higiene_interdental"
-        })
-
-    if placa >= 2:
-        recomendaciones.append({
-            "priority": "alta",
-            "text": "Plaka-indize altua duzunez, komeni da aho-garbiketa ohiturak indartzea eta garbiketa profesionala baloratzea.",
-            "reason": "Plaka altuak hantura eta aho-arazoen arriskua handitu dezake.",
-            "tag": "placa"
-        })
-
-    if il6 > 10:
-        recomendaciones.append({
-            "priority": "alta",
-            "text": "Inflamazio-markatzaile altua dagoenez, jarraitu profesional sanitarioaren aholkuak eta mantendu zaintza-ohitura egonkorrak.",
-            "reason": "Inflamazio maila altuak arreta handiagoa eskatzen du.",
-            "tag": "inflamacion"
-        })
-
-    if ph < 6.5:
-        recomendaciones.append({
-            "priority": "media",
-            "text": "Saiatu hidratazio egokia mantentzen eta zure aho-ingurunearen oreka zaintzen.",
-            "reason": "pH baxuak aho-ingurunean desoreka adieraz dezake.",
-            "tag": "ph"
-        })
-    
-    for rec in recomendaciones:
-        rec_tags = tags_para_recomendacion(rec)
-        rec["sources"] = buscar_fuentes_por_tags(
-            tags=rec_tags,
-            max_items=3,
-            lang="es"
-        )
-
-        try:
-            rec["ai_text"] = "[OLLAMA] " + enriquecer_recomendacion_con_ia_cloud(rec, perfil)
-        except Exception as e:
-            rec["ai_text"] = rec["text"]
-            rec["ai_error"] = str(e)
-
-    links = recomendar_links(perfil)
-    sources = recomendar_sources(perfil)
-
-    summary = "Zure datuen arabera, aho-osasunarekin lotutako gomendio pertsonalizatu batzuk prestatu dira."
-
-    return {
-        "summary": summary,
-        "recommendations": recomendaciones[:4],
-        "links": links,
-        "sources": sources,
-        "modo": "heuristica"
-    }
- """
 
 def recomendacion_personalizada_ia(
     score: float,

@@ -52,7 +52,7 @@ class Result(Base):
     factores = Column(JSON, nullable=False)
     mensaje_general = Column(JSON, nullable=False)
 
-    ia_texto = Column(String, nullable=True)
+    ia_texto = Column(JSON, nullable=True)
     ia_links = Column(JSON, nullable=True)
     ia_sources = Column(JSON, nullable=True)
     ia_mode = Column(String, nullable=True)
