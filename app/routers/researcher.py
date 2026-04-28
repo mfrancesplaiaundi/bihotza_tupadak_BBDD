@@ -14,7 +14,7 @@ from sqlalchemy.orm import Session
 from app.auth import require_role
 from app.auth import create_access_token
 from app.schemas import BiomarkerCreate, DatosEntrada
-from app.models import Patient, Biomarker, Questionnaire
+from app.models import Patient, Biomarker, Questionnaire, Result
 from app.database import get_db
 from app.services.scoring_parcial import calcular_scores_parciales
 
@@ -160,6 +160,49 @@ def reset_pin_paciente(
         "new_pin": nuevo_pin,
         "message": "PIN berria sortu da. Erabiltzaileari eman."
     }
+
+@router.delete("/patients/{patient_id}")
+def eliminar_paciente(
+    patient_id: str,
+    db: Session = Depends(get_db),
+    _=Depends(require_role("researcher"))
+):
+    patient = db.query(Patient).filter(Patient.id == patient_id).first()
+
+    if not patient:
+        raise HTTPException(status_code=404, detail="Pazientea ez da aurkitu")
+
+    try:
+        # 1. Borrar resultados
+        db.query(Result).filter(Result.patient_id == patient_id).delete(
+            synchronize_session=False
+        )
+
+        # 2. Borrar cuestionarios
+        db.query(Questionnaire).filter(Questionnaire.patient_id == patient_id).delete(
+            synchronize_session=False
+        )
+
+        # 3. Borrar biomarcadores
+        db.query(Biomarker).filter(Biomarker.patient_id == patient_id).delete(
+            synchronize_session=False
+        )
+
+        # 4. Borrar paciente
+        db.delete(patient)
+
+        db.commit()
+
+        return {
+            "message": "Pazientea eta bere datuak behar bezala ezabatu dira"
+        }
+
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail=f"Errorea pazientea ezabatzean: {str(e)}"
+        )
 
 @router.get("/estadisticas")
 def estadisticas_pacientes(

@@ -41,9 +41,14 @@
         Nire analitikak ikusi
     </button>
 
-    <button class=btn-clinica-primary onclick="mostrarResultadosPaciente()">
+    <button id="btnResultados" class=btn-clinica-primary onclick="mostrarResultadosPaciente()">
         Emaitzak ikusi
     </button>
+
+        <div id="loading" style="display:none;">
+        ⏳ Emaitzak kalkulatzen ari dira... Mesedez, itxaron.
+        </div>
+
     </section>
 
     <!-- VISTA PACIENTE: VALORES METIDOS POR EL INVESTIGADOR, VALORES ANALITICOS -->
@@ -90,6 +95,7 @@
 
     <!-- VISTA PACIENTE: RESULTADOS PACIENTE -->
     <section id="resultadosPaciente" class="card oculto animate">
+        
     <h2>Emaitzak</h2>
 
     <p>

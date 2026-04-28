@@ -179,6 +179,8 @@ async function cargarPacientes() {
       <td>${p.has_questionnaire ? "✔" : "✖"}</td>
       <td>${p.last_questionnaire_at? new Date(p.last_questionnaire_at).toLocaleDateString()   : "-"}</td>
       <td><button onclick="resetPinPaciente('${p.patient_id}')">Reset PIN</button></td>
+      <td><button onclick="eliminarPaciente('${p.patient_id}')">❌ Ezabatu</button></td>
+
     `;
 
     tbody.appendChild(fila);
@@ -292,6 +294,14 @@ async function mostrarAnaliticasPaciente() {
 async function mostrarResultadosPaciente() {
   const token = sessionStorage.getItem("token");
 
+  const loading = document.getElementById("loading");
+  const btnResultados = document.getElementById("btnResultados");
+  btnResultados.disabled = true;
+  btnResultados.innerText = "Kalkulatzen...";
+
+
+  loading.style.display = "block";
+
   const res = await fetch("/api/patient/resultados", {
     headers: {
       "Authorization": "Bearer " + token
@@ -311,6 +321,11 @@ async function mostrarResultadosPaciente() {
   }
 
   const data = await res.json();
+
+  loading.style.display = "none";
+  btnResultados.disabled = false;
+  btnResultados.innerText = "Emaitzak ikusi";
+
 
   // Mostrar sección
   mostrar("resultadosPaciente");
@@ -335,7 +350,7 @@ async function mostrarResultadosPaciente() {
       const li = document.createElement("li");
       li.textContent = "Listu-pH baxu batek hainbat kausa izan ditzake (medikazioa, dieta, desordena gastrikoak, etab.). Aldi berean, hortz-higadura, gaixotasun periodontala edo ahoko osasunaren beste desoreka batzuk eragin ditzake. Kontsulta ezazu zure odontologoarekin jatorria identifikatzeko, eta ahoko osasuna babesteko eta dagokion espezialistarekin bidera dezan";
       listaFactores.appendChild(li);
-      li.textContent = "Zure ahoaren pH maila azidoa denez, gomendagarria izan daiteke azukredun janariak eta edariak murriztea eguneroko dietan. Elikadura ohitura osasungarriek ahoaren oreka berreskuratzen laguntzen dute";
+      li.textContent = "Zure ahoaren pH maila azidoa denez, gomendagarria izan daiteke azukredun janariak eta edariak murriztea eguneroko dietan. Elikadura ohitura osasungarriek ahoaren oreka berreskuratzen laguntzen dute. Kontsultatu ezazu hurrengo esteka: ";
       listaFactores.appendChild(li);
       const a = document.createElement("a");
       a.href = "https://sepa.es/download/recomendaciones-sobre-dieta-y-salud-bucal/?wpdmdl=51283&_wpdmkey=69b91cdf4e1fd&subscriber=O9p-ySRz1XKM40lC7Rr3nsx4_hld9vLPLr9Y6902V4bJS6Fnipa0NQKByKIB96UBCqOnm8cFj0NUidqnQp_oAfA";
@@ -497,6 +512,37 @@ async function resetPinPaciente(patientId) {
     "PIN berria: " + data.new_pin + "\n\n" +
     "⚠️ PIN hau pazienteari eman eta ez da berriro erakutsiko."
   );
+}
+
+async function eliminarPaciente(patientId) {
+  const token = sessionStorage.getItem("token");
+
+  const confirmar = confirm("Ziur zaude paziente hau eta bere datu guztiak ezabatu nahi dituzula?");
+
+  if (!confirmar) {
+    return;
+  }
+
+  const res = await fetch(`/api/researcher/patients/${patientId}`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  });
+
+  if (res.status === 401 || res.status === 403) {
+    logout();
+    alert("Sesión caducada. Vuelve a iniciar sesión.");
+    return;
+  }
+
+  if (!res.ok) {
+    alert("Errorea pazientea ezabatzean.");
+    return;
+  }
+
+  alert("Pazientea ezabatu da.");
+  cargarPacientes();
 }
 
 async function cargarEstadisticas() {
