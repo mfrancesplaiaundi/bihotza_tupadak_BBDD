@@ -45,10 +45,6 @@
         Emaitzak ikusi
     </button>
 
-        <div id="loading" style="display:none;">
-        ⏳ Emaitzak kalkulatzen ari dira... Mesedez, itxaron.
-        </div>
-
     </section>
 
     <!-- VISTA PACIENTE: VALORES METIDOS POR EL INVESTIGADOR, VALORES ANALITICOS -->
@@ -115,10 +111,11 @@
     </p>
 
     <h2>Gomendio pertsonalizatuak</h2>
-    <ul id="iaTexto"></ul><br>
+    <ul id="iaTexto"></ul>
+
+    <h2>Gomendatutako bideoak eta gidak</h2>
     <ul id="iaLinks"></ul>
-    <h2>Gomendatutako iturriak eta gidak</h2>
-    <ul id="iaSources"></ul>
+    
 
     <button class=btn-clinica-primary onclick="mostrar('menuPaciente')">
         Atzera
@@ -331,7 +328,7 @@
         </form>
     </section>
 
-    <!-- VISTA INVESTIGADOR: ESTADISTICAS (POR AHORA MIRAMOS SOLO LAS MEDIAS POR GRUPOS) -->    
+    <!-- VISTA INVESTIGADOR: ESTADISTICAS  -->    
     <section id="estadisticas" class="card oculto animate">
 
         <h3>Taldeen Batezbestekoak</h3>
@@ -355,32 +352,13 @@
         <button class=btn-clinica-primary onclick="mostrar('investigador')">Atzera</button>
     </section>
 
-    <!-- (ANTIGUO) VISTA PACIENTE: RESULTADOS -->
-    <section id="resultados" class="card oculto animate">
-        <h2>Emaitzak eta Gomendioak</h2>
 
-        <div class="resultados-grid">
-
-            <div class="resultado-item">
-                <h3>Score Totala</h3>
-                <p class="score-ejemplo">Adibidez: <strong>18 puntu</strong></p>
-            </div>
-
-            <div class="resultado-item">
-                <h3>Gomendio Orokorrak</h3>
-                <p class="indicacion">Adibidez: Berrikuspen klinikoa gomendatzen da. Jarraipena 2 astean behin.</p>
-            </div>
-
-            <div class="resultado-item">
-                <h3>Gomendio Pertsonalizatua</h3>
-                <p class="indicacion">
-                    Adibidez: IL-6 mailak (pg/mL) jarraipen gehigarria iradokitzen du.
-
-                </p>
-            </div>
-
-        </div>
-    </section>
+    <div id="loadingOverlay" class="overlay" style="display:none;">
+    <div class="overlay-content">
+        <img src="../static/img/logo.png" class="heart" />
+        <p>Emaitzak kalkulatzen ari dira...</p>
+    </div>
+</div>
 
 </main>
 

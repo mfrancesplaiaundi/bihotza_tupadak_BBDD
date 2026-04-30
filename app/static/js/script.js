@@ -294,13 +294,13 @@ async function mostrarAnaliticasPaciente() {
 async function mostrarResultadosPaciente() {
   const token = sessionStorage.getItem("token");
 
-  const loading = document.getElementById("loading");
+  const loading = document.getElementById("loadingOverlay");
   const btnResultados = document.getElementById("btnResultados");
   btnResultados.disabled = true;
   btnResultados.innerText = "Kalkulatzen...";
 
 
-  loading.style.display = "block";
+  loading.style.display = "flex";
 
   const res = await fetch("/api/patient/resultados", {
     headers: {
@@ -317,6 +317,7 @@ async function mostrarResultadosPaciente() {
 
   if (!res.ok) {
     alert("Ezin dira emaitzak kalkulatu. Datu guztiak ez daude eskuragarri.");
+    loading.style.display = "none";
     return;
   }
 
@@ -391,8 +392,6 @@ async function mostrarResultadosPaciente() {
 
   const recomendacionesList = document.getElementById("iaTexto");
   recomendacionesList.innerHTML = '';
-
-  console.log(ia.recommendations);
 
   ia.recommendations.forEach(recommendation => {
 
