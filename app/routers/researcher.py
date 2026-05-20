@@ -377,40 +377,55 @@ def estadisticas_pacientes(
             .first()
         )
 
-        if not q or not b:
-            raise HTTPException(400, "Datu guztiak ez daude eskuragarri")
-        
-        # Mirar en qué grupo meter cada paciente, para eso mirar respuestas de los formularios
+        f2 = {}
+        score_f1 = ""
+        score_f2 = ""
+        score_f2_q8 = ""
 
-        datos = DatosEntrada(
-            formulario1=q.answers["formulario1"],
-            formulario2=q.answers["formulario2"],
-            il6_value=b.il6_value,
-            dental_plaque=b.dental_plaque,
-            tooth_count=b.tooth_count,
-            ph_value=b.ph_value        
-        )
+        if q:
+            f1 = q.answers.get("formulario1", {})
+            f2 = q.answers.get("formulario2", {})
+            datos = DatosEntrada(
+                formulario1=f1,
+                formulario2=f2,
+                il6_value=0,
+                dental_plaque=0,
+                tooth_count=0,
+                ph_value=0       
+            )
+            score_f1, score_f2, score_f2_q8 = calcular_scores_parciales(datos)
 
-        score_f1,  score_f2, score_f2_q8 = calcular_scores_parciales(datos)
+            if b:
+                datos = DatosEntrada(
+                    formulario1=f1,
+                    formulario2=f2,
+                    il6_value=b.il6_value,
+                    dental_plaque=b.dental_plaque,
+                    tooth_count=b.tooth_count,
+                    ph_value=b.ph_value        
+                )
 
-        f2 = q.answers.get("formulario2", {})
+                
 
-        if f2.get("menpekotasuna")in ("bat","bi","hiru"):
-            menpekotasuna="bai"
+        if f2.get("menpekotasuna") in ("bat", "bi", "hiru"):
+            menpekotasuna = "bai"
+        elif f2:
+            menpekotasuna = "ez"
         else:
-            menpekotasuna="ez"
+            menpekotasuna = ""
 
         writer.writerow([
             p.patient_code,
-            b.il6_value,
-            b.dental_plaque,
-            f2.get("kardiopatia"),
+            b.il6_value if b else "",
+            b.dental_plaque if b else "",
+            f2.get("kardiopatia", ""),
             menpekotasuna,
             score_f1,
             score_f2,
             score_f2_q8
         ])
-        
+
+                
     output.seek(0)
 
     return StreamingResponse(
