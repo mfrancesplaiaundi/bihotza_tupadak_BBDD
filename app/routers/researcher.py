@@ -419,4 +419,41 @@ def estadisticas_pacientes(
         headers={"Content-Disposition": "attachment; filename=jamovi_export.csv"}
     )
  
-    
+@router.get("/patients/{patient_id}/answers")
+def ver_respuestas_paciente(
+    patient_id: str,
+    db: Session = Depends(get_db),
+    payload=Depends(require_role("researcher"))
+):
+    patient = db.query(Patient).filter(Patient.id == patient_id).first()
+
+    if not patient:
+        raise HTTPException(status_code=404, detail="Pazientea ez da aurkitu")
+
+    q = (
+        db.query(Questionnaire)
+        .filter(Questionnaire.patient_id == patient_id)
+        .order_by(Questionnaire.created_at.desc())
+        .first()
+    )
+
+    if not q:
+        return {
+            "patient": {
+                "id": patient.id,
+                "patient_code": patient.patient_code,
+            },
+            "questionnaire": None
+        }
+
+    return {
+        "patient": {
+            "id": patient.id,
+            "patient_code": patient.patient_code,
+        },
+        "questionnaire": {
+            "id": q.id,
+            "created_at": q.created_at,
+            "answers": q.answers
+        }
+    }

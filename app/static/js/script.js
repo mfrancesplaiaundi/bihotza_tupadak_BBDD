@@ -178,6 +178,7 @@ async function cargarPacientes() {
       <td>${p.measured_at ? new Date(p.measured_at).toLocaleDateString() : "-"}</td>
       <td>${p.has_questionnaire ? "✔" : "✖"}</td>
       <td>${p.last_questionnaire_at? new Date(p.last_questionnaire_at).toLocaleDateString()   : "-"}</td>
+      <td><button onclick="verRespuestasPaciente('${p.patient_id}')">Erantzunak Ikusi</button></td>
       <td><button onclick="resetPinPaciente('${p.patient_id}')">Reset PIN</button></td>
       <td><button onclick="eliminarPaciente('${p.patient_id}')">❌ Ezabatu</button></td>
 
@@ -485,6 +486,63 @@ async function guardarFormulariosPaciente() {
   alert("Galdeketak ondo gorde dira");
   mostrar("menuPaciente");
 }
+
+async function verRespuestasPaciente(patientId) {
+  
+  const token = sessionStorage.getItem("token");
+
+  const contenedor = document.getElementById("respuestasPacienteBox");
+
+
+  const res = await fetch(`/api/researcher/patients/${patientId}/answers`, {
+    method: "GET",
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  });
+
+  if (res.status === 401 || res.status === 403) {
+    logout();
+    alert("Sesión caducada. Vuelve a iniciar sesión.");
+    return;
+  }
+
+  if (!res.ok) {
+    contenedor.innerHTML = "<p>Ezin dira erantzunak kargatu.</p>";
+    return;
+  }
+
+  const data = await res.json();
+  
+  contenedor.innerHTML = "";
+
+  const titulo = document.createElement("h3");
+  titulo.textContent = `Pazientea: ${data.patient?.patient_code || data.patient?.id || "-"}`;
+  contenedor.appendChild(titulo);
+
+  const q = data.questionnaire;
+
+  if (!q) {
+    contenedor.innerHTML += "<p>Ez dago galdetegirik.</p>";
+    return;
+  }
+
+  const card = document.createElement("div");
+  card.className = "card-respuesta";
+
+  const fecha = document.createElement("p");
+  fecha.innerHTML = `<strong>Data:</strong> ${q.created_at || "-"}`;
+
+  const pre = document.createElement("pre");
+  pre.textContent = JSON.stringify(q.answers, null, 2);
+
+  card.appendChild(fecha);
+  card.appendChild(pre);
+  contenedor.appendChild(card);
+
+}
+
+
 
 async function resetPinPaciente(patientId) {
   if (!confirm("PIN berria sortuko da. Jarraitu?")) return;
