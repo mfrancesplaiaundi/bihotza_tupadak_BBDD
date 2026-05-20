@@ -246,18 +246,16 @@ def estadisticas_pacientes(
             .first()
         )
 
-        if not q or not b:
-            raise HTTPException(400, "Datu guztiak ez daude eskuragarri")
         
         # Mirar en qué grupo meter cada paciente, para eso mirar respuestas de los formularios
 
         datos = DatosEntrada(
             formulario1=q.answers["formulario1"],
             formulario2=q.answers["formulario2"],
-            il6_value=b.il6_value,
-            dental_plaque=b.dental_plaque,
-            tooth_count=b.tooth_count,
-            ph_value=b.ph_value        
+            il6_value=b.il6_value if b else 0,
+            dental_plaque=b.dental_plaque if b else 0,
+            tooth_count=b.tooth_count if b else 0,
+            ph_value=b.ph_value if b else 0        
         )
 
         score_f1,  score_f2, score_f2_q8 = calcular_scores_parciales(datos)
@@ -266,54 +264,54 @@ def estadisticas_pacientes(
 
         if f2.get("kardiopatia") == "bai":
             if f2.get("menpekotasuna") in ("bat", "bi", "hiru"):
-                il6_m1k1.append(b.il6_value)
-                plaka_m1k1.append(b.dental_plaque)
+                il6_m1k1.append(b.il6_value if b else 0)
+                plaka_m1k1.append(b.dental_plaque if b else 0)
                 hig_m1k1.append(float(score_f1))
                 kar_m1k1.append(float(score_f2))
                 men_m1k1.append(float(score_f2_q8))        
             else:
-                il6_m0k1.append(b.il6_value)
-                plaka_m0k1.append(b.dental_plaque)
+                il6_m0k1.append(b.il6_value if b else 0)
+                plaka_m0k1.append(b.dental_plaque if b else 0)
                 hig_m0k1.append(float(score_f1))
                 kar_m0k1.append(float(score_f2))
         elif f2.get("kardiopatia") == "ez":
             if f2.get("menpekotasuna") in ("bat", "bi", "hiru"):
-                il6_m1k0.append(b.il6_value)
-                plaka_m1k0.append(b.dental_plaque)
+                il6_m1k0.append(b.il6_value if b else 0)
+                plaka_m1k0.append(b.dental_plaque if b else 0)
                 hig_m1k0.append(float(score_f1))
                 kar_m1k0.append(float(score_f2))
                 men_m1k0.append(float(score_f2_q8))        
             else:
-                il6_m0k0.append(b.il6_value)
-                plaka_m0k0.append(b.dental_plaque)
+                il6_m0k0.append(b.il6_value if b else 0)
+                plaka_m0k0.append(b.dental_plaque if b else 0)
                 hig_m0k0.append(float(score_f1))
                 kar_m0k0.append(float(score_f2))
 
         
         # Medias de los arrays
         
-    il6_m1k1_media= sum(il6_m1k1)/len(il6_m1k1)        
-    plaka_m1k1_media= sum(plaka_m1k1)/len(plaka_m1k1)        
-    hig_m1k1_media= sum(hig_m1k1)/len(hig_m1k1)        
-    kar_m1k1_media= sum(kar_m1k1)/len(kar_m1k1)        
-    men_m1k1_media= sum(men_m1k1)/len(men_m1k1)
+    il6_m1k1_media= sum(il6_m1k1)/len(il6_m1k1) if il6_m1k1 else 0        
+    plaka_m1k1_media= sum(plaka_m1k1)/len(plaka_m1k1) if plaka_m1k1 else 0
+    hig_m1k1_media= sum(hig_m1k1)/len(hig_m1k1) if hig_m1k1 else 0
+    kar_m1k1_media= sum(kar_m1k1)/len(kar_m1k1) if kar_m1k1 else 0
+    men_m1k1_media= sum(men_m1k1)/len(men_m1k1) if men_m1k1 else 0
 
-    il6_m0k1_media= sum(il6_m0k1)/len(il6_m0k1)        
-    plaka_m0k1_media= sum(plaka_m0k1)/len(plaka_m0k1)        
-    hig_m0k1_media= sum(hig_m0k1)/len(hig_m0k1)        
-    kar_m0k1_media= sum(kar_m0k1)/len(kar_m0k1)        
+    il6_m0k1_media= sum(il6_m0k1)/len(il6_m0k1) if il6_m0k1 else 0        
+    plaka_m0k1_media= sum(plaka_m0k1)/len(plaka_m0k1) if plaka_m0k1 else 0
+    hig_m0k1_media= sum(hig_m0k1)/len(hig_m0k1) if hig_m0k1 else 0
+    kar_m0k1_media= sum(kar_m0k1)/len(kar_m0k1) if kar_m0k1 else 0
 
-    il6_m1k0_media= sum(il6_m1k0)/len(il6_m1k0)        
-    plaka_m1k0_media= sum(plaka_m1k0)/len(plaka_m1k0)        
-    hig_m1k0_media= sum(hig_m1k0)/len(hig_m1k0)        
-    kar_m1k0_media= sum(kar_m1k0)/len(kar_m1k0)        
-    men_m1k0_media= sum(men_m1k0)/len(men_m1k0)
+    il6_m1k0_media= sum(il6_m1k0)/len(il6_m1k0) if il6_m1k0 else 0
+    plaka_m1k0_media= sum(plaka_m1k0)/len(plaka_m1k0) if plaka_m1k0 else 0
+    hig_m1k0_media= sum(hig_m1k0)/len(hig_m1k0) if hig_m1k0 else 0
+    kar_m1k0_media= sum(kar_m1k0)/len(kar_m1k0) if kar_m1k0 else 0
+    men_m1k0_media= sum(men_m1k0)/len(men_m1k0) if men_m1k0 else 0
 
-    il6_m0k0_media= sum(il6_m0k0)/len(il6_m0k0)        
-    plaka_m0k0_media= sum(plaka_m0k0)/len(plaka_m0k0)        
-    hig_m0k0_media= sum(hig_m0k0)/len(hig_m0k0)        
-    kar_m0k0_media= sum(kar_m0k0)/len(kar_m0k0)  
-    
+    il6_m0k0_media= sum(il6_m0k0)/len(il6_m0k0) if il6_m0k0 else 0        
+    plaka_m0k0_media= sum(plaka_m0k0)/len(plaka_m0k0) if plaka_m0k0 else 0
+    hig_m0k0_media= sum(hig_m0k0)/len(hig_m0k0) if hig_m0k0 else 0
+    kar_m0k0_media= sum(kar_m0k0)/len(kar_m0k0) if kar_m0k0 else 0
+
     # Habría que devolver directamente los valores de las medias
 
     return {"il6_m1k1_media": il6_m1k1_media,
@@ -341,7 +339,7 @@ def estadisticas_pacientes(
     }
 
 @router.get("/exportar")
-def estadisticas_pacientes(
+def exportar_estadisticas_pacientes(
     db: Session = Depends(get_db),
     _=Depends(require_role("researcher"))
 ):
