@@ -250,8 +250,8 @@ def estadisticas_pacientes(
         # Mirar en qué grupo meter cada paciente, para eso mirar respuestas de los formularios
 
         datos = DatosEntrada(
-            formulario1=q.answers["formulario1"],
-            formulario2=q.answers["formulario2"],
+            formulario1=q.answers["formulario1"] if q else {},
+            formulario2=q.answers["formulario2"] if q else {},
             il6_value=b.il6_value if b else 0,
             dental_plaque=b.dental_plaque if b else 0,
             tooth_count=b.tooth_count if b else 0,
@@ -259,33 +259,35 @@ def estadisticas_pacientes(
         )
 
         score_f1,  score_f2, score_f2_q8 = calcular_scores_parciales(datos)
+        
 
-        f2 = q.answers.get("formulario2", {})
+        if q:
+            f2 = q.answers.get("formulario2", {})
 
-        if f2.get("kardiopatia") == "bai":
-            if f2.get("menpekotasuna") in ("bat", "bi", "hiru"):
-                il6_m1k1.append(b.il6_value if b else 0)
-                plaka_m1k1.append(b.dental_plaque if b else 0)
-                hig_m1k1.append(float(score_f1))
-                kar_m1k1.append(float(score_f2))
-                men_m1k1.append(float(score_f2_q8))        
-            else:
-                il6_m0k1.append(b.il6_value if b else 0)
-                plaka_m0k1.append(b.dental_plaque if b else 0)
-                hig_m0k1.append(float(score_f1))
-                kar_m0k1.append(float(score_f2))
-        elif f2.get("kardiopatia") == "ez":
-            if f2.get("menpekotasuna") in ("bat", "bi", "hiru"):
-                il6_m1k0.append(b.il6_value if b else 0)
-                plaka_m1k0.append(b.dental_plaque if b else 0)
-                hig_m1k0.append(float(score_f1))
-                kar_m1k0.append(float(score_f2))
-                men_m1k0.append(float(score_f2_q8))        
-            else:
-                il6_m0k0.append(b.il6_value if b else 0)
-                plaka_m0k0.append(b.dental_plaque if b else 0)
-                hig_m0k0.append(float(score_f1))
-                kar_m0k0.append(float(score_f2))
+            if f2.get("kardiopatia") == "bai":
+                if f2.get("menpekotasuna") in ("bat", "bi", "hiru"):
+                    il6_m1k1.append(b.il6_value if b else 0)
+                    plaka_m1k1.append(b.dental_plaque if b else 0)
+                    hig_m1k1.append(float(score_f1))
+                    kar_m1k1.append(float(score_f2))
+                    men_m1k1.append(float(score_f2_q8))        
+                else:
+                    il6_m0k1.append(b.il6_value if b else 0)
+                    plaka_m0k1.append(b.dental_plaque if b else 0)
+                    hig_m0k1.append(float(score_f1))
+                    kar_m0k1.append(float(score_f2))
+            elif f2.get("kardiopatia") == "ez":
+                if f2.get("menpekotasuna") in ("bat", "bi", "hiru"):
+                    il6_m1k0.append(b.il6_value if b else 0)
+                    plaka_m1k0.append(b.dental_plaque if b else 0)
+                    hig_m1k0.append(float(score_f1))
+                    kar_m1k0.append(float(score_f2))
+                    men_m1k0.append(float(score_f2_q8))        
+                else:
+                    il6_m0k0.append(b.il6_value if b else 0)
+                    plaka_m0k0.append(b.dental_plaque if b else 0)
+                    hig_m0k0.append(float(score_f1))
+                    kar_m0k0.append(float(score_f2))
 
         
         # Medias de los arrays
@@ -314,23 +316,28 @@ def estadisticas_pacientes(
 
     # Habría que devolver directamente los valores de las medias
 
-    return {"il6_m1k1_media": il6_m1k1_media,
+    return {
+        "kopurua_m1k1": len(il6_m1k1),
+        "il6_m1k1_media": il6_m1k1_media,
         "plaka_m1k1_media": plaka_m1k1_media,
         "hig_m1k1_media": hig_m1k1_media,
         "kar_m1k1_media": kar_m1k1_media,
         "men_m1k1_media": men_m1k1_media,
 
+        "kopurua_m0k1": len(il6_m0k1),
         "il6_m0k1_media": il6_m0k1_media,
         "plaka_m0k1_media": plaka_m0k1_media,
         "hig_m0k1_media": hig_m0k1_media,
         "kar_m0k1_media": kar_m0k1_media,
 
+        "kopurua_m1k0": len(il6_m1k0),
         "il6_m1k0_media": il6_m1k0_media,
         "plaka_m1k0_media": plaka_m1k0_media,
         "hig_m1k0_media": hig_m1k0_media,
         "kar_m1k0_media": kar_m1k0_media,
         "men_m1k0_media": men_m1k0_media,
-        
+
+        "kopurua_m0k0": len(il6_m0k0),
         "il6_m0k0_media": il6_m0k0_media,
         "plaka_m0k0_media": plaka_m0k0_media,
         "hig_m0k0_media": hig_m0k0_media,

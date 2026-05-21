@@ -624,6 +624,7 @@ async function cargarEstadisticas() {
 
   fila.innerHTML = `
       <td>M1K1</td>
+      <td>${valores.kopurua_m1k1 ?? "-"}</td>
       <td>${valores.plaka_m1k1_media ?? "-"}</td>
       <td>${valores.il6_m1k1_media ?? "-"}</td>
       <td>${valores.hig_m1k1_media ?? "-"}</td>
@@ -637,6 +638,7 @@ async function cargarEstadisticas() {
 
   fila2.innerHTML = `
       <td>M0K1</td>
+      <td>${valores.kopurua_m0k1 ?? "-"}</td>
       <td>${valores.plaka_m0k1_media ?? "-"}</td>
       <td>${valores.il6_m0k1_media ?? "-"}</td>
       <td>${valores.hig_m0k1_media ?? "-"}</td>
@@ -650,6 +652,7 @@ async function cargarEstadisticas() {
 
   fila3.innerHTML = `
       <td>M1K0</td>
+      <td>${valores.kopurua_m1k0 ?? "-"}</td>
       <td>${valores.plaka_m1k0_media ?? "-"}</td>
       <td>${valores.il6_m1k0_media ?? "-"}</td>
       <td>${valores.hig_m1k0_media ?? "-"}</td>
@@ -663,6 +666,7 @@ async function cargarEstadisticas() {
 
   fila4.innerHTML = `
       <td>M0K0</td>
+      <td>${valores.kopurua_m0k0 ?? "-"}</td>
       <td>${valores.plaka_m0k0_media ?? "-"}</td>
       <td>${valores.il6_m0k0_media ?? "-"}</td>
       <td>${valores.hig_m0k0_media ?? "-"}</td>
