@@ -45,6 +45,9 @@ def ver_biomarcadores_paciente(
 
     if not biomarker:
         return {"message": "Oraindik ez dago analitikarik"}
+    
+    if biomarker.il6_value == 0:
+        biomarker.il6_value="-"
 
     return {
         "il6_value": biomarker.il6_value,
@@ -74,8 +77,8 @@ def resultados_paciente(
         .first()
     )
 
-    if not q or not b:
-        raise HTTPException(400, "Datu guztiak ez daude eskuragarri")
+    if not q:
+        raise HTTPException(400, "Galdetegia falta da")
     
     existing = (
         db.query(Result)

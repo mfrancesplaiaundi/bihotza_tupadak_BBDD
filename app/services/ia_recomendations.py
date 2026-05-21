@@ -6,7 +6,7 @@ from app.services.source_context import (
     construir_contexto_fuentes,
 )
 
-OLLAMA_MODEL = "qwen3.5:397b"
+OLLAMA_MODEL = "gpt-oss:120b"
 
 client = Client(
     host="https://ollama.com",

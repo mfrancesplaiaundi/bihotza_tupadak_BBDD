@@ -392,6 +392,9 @@ async function mostrarResultadosPaciente() {
 
   const ia=data.recomendacion_personalizada;
 
+  console.log("DATA COMPLETA:", data);
+  console.log("IA:", ia);
+
   const iaTexto=document.getElementById("iaTexto");
   iaTexto.innerText=ia?.recommendations ? ia.recommendations : "-";
 

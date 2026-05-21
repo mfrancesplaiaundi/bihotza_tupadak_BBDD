@@ -127,7 +127,7 @@ def guardar_biomarcador(
 ):
     biomarker = Biomarker(
         patient_id=data.patient_id,
-        il6_value=data.il6_value,
+        il6_value=data.il6_value or 0,
         dental_plaque=data.dental_plaque,
         tooth_count=data.tooth_count,
         ph_value=data.ph_value,

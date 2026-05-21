@@ -155,12 +155,13 @@ def calcular_score(datos):
     # ---------- DATOS ANALÍTICOS ----------
      
     # ---------- IL-6 ----------
-    if datos.il6_value <= 5:
-        score += 0
-    elif 5 < datos.il6_value <= 10:
-        score += 10
-    elif datos.il6_value > 10:
-        score += 20
+    if datos.il6_value is not None:
+        if datos.il6_value <= 5:
+            score += 0
+        elif 5 < datos.il6_value <= 10:
+            score += 10
+        elif datos.il6_value > 10:
+            score += 20
 
     # ---------- Plaka Indizea ----------
     if datos.dental_plaque <= 1:
