@@ -167,6 +167,10 @@ async function cargarPacientes() {
   pacientes.forEach(p => {
     const fila = document.createElement("tr");
 
+    if (p.il6_value === 0) {
+      p.il6_value = "-";
+    }
+
     fila.innerHTML = `
       <td>${p.patient_code}</td>
       <td>${new Date(p.created_at).toLocaleDateString()}</td>
@@ -224,11 +228,11 @@ async function guardarDatosClinicos() {
   const token = sessionStorage.getItem("token");
 
   const payload = {
-    patient_id: document.getElementById("patientSelect").value,
-    il6_value: parseFloat(document.getElementById("il6").value),
-    dental_plaque: parseFloat(document.getElementById("indice_placa").value),
-    tooth_count: document.getElementById("dientes").value,
-    ph_value: parseFloat(document.getElementById("ph").value),
+    patient_id: document.getElementById("patientSelect").value ,
+    il6_value: parseFloat(document.getElementById("il6").value) || 0,
+    dental_plaque: parseFloat(document.getElementById("indice_placa").value) || 0,
+    tooth_count: document.getElementById("dientes").value || 0,
+    ph_value: parseFloat(document.getElementById("ph").value) || 0,
     observations: document.getElementById("observaciones").value
   };
 
